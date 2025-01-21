@@ -29,7 +29,7 @@ public class HeyJudy {
             }
             HeyJudy.echoCommand(userCommand);
         }
-
+        
         scanner.close();
     }
     public static void main(String[] args) {
