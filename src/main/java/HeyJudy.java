@@ -9,13 +9,40 @@ public class HeyJudy {
         System.out.println(" What can I do for you?");
         System.out.println("____________________________________________________________");
     }
-    public static void addItem(String item) {
-        Task newTask = new Task(item, count);
-        tasks[count] = newTask;
+    public static void addToDo(String item) {
+        ToDo toDo = new ToDo(item, count);
+        tasks[count] = toDo;
         count++;
-        System.out.println("    ____________________________________________________________");
-        System.out.println("        added: " + item);
-        System.out.println("    ____________________________________________________________");
+        printTask(toDo);
+    }
+
+    public static void addDeadline(String details) {
+        String[] tokens = details.split(" /by ", 2);
+        if (tokens.length < 2) {
+            System.out.println("    ____________________________________________________________");
+            System.out.println("     Why are you not giving me your details? "
+                    + "How can I set deadline for you??");
+            System.out.println("    ____________________________________________________________");
+        } else {
+            Deadline deadline = new Deadline(tokens[0], count, tokens[1]);
+            tasks[count] = deadline;
+            count++;
+            printTask(deadline);
+        }
+    }
+
+    public static void addEvent(String details) {
+        String[] tokens = details.split(" /from | /to ");
+        if (tokens.length < 3) {
+            System.out.println("    ____________________________________________________________");
+            System.out.println("     You not giving me enough inputs, how i do for you??");
+            System.out.println("    ____________________________________________________________");
+        } else {
+            Event event = new Event(tokens[0], count, tokens[1], tokens[2]);
+            tasks[count] = event;
+            count++;
+            printTask(event);
+        }
     }
 
     public static String markTask(String action, Task task) {
@@ -40,7 +67,7 @@ public class HeyJudy {
         System.out.println("         Bye. Hope to see you again soon!");
         System.out.println("    ____________________________________________________________");
     }
-    public static void printTask() {
+    public static void listTask() {
         if (count == 0) {
             System.out.println("    ____________________________________________________________");
             System.out.println("        Psss, I don't see any task yet. Please add");
@@ -49,11 +76,20 @@ public class HeyJudy {
             System.out.println("    ____________________________________________________________");
             System.out.println("     Here are the tasks in your list:");
             for (int i = 0; i < count; i++) {
-                System.out.println("     " + tasks[i]);
+                System.out.println("     " + (i + 1) + ". " + tasks[i]);
             }
             System.out.println("    ____________________________________________________________");
         }
     }
+
+    public static void printTask(Task task) {
+        System.out.println("    ____________________________________________________________");
+        System.out.println("      Got it. I've added this task: ");
+        System.out.println("      " + task);
+        System.out.println("      Now you have " + (count) + " tasks in the list.");
+        System.out.println("    ____________________________________________________________");
+    }
+
     public static void readCommand() {
         Scanner scanner = new Scanner(System.in);
         String userCommand;
@@ -64,7 +100,7 @@ public class HeyJudy {
                 HeyJudy.exit();
                 break;
             } else if (userCommand.equalsIgnoreCase("list")) {
-                HeyJudy.printTask();
+                HeyJudy.listTask();
             } else if (userCommand.startsWith("unmark ")
                     || userCommand.startsWith("mark ")) {
                 String[] splittedCommands = userCommand.split(" ");
@@ -87,8 +123,17 @@ public class HeyJudy {
                 System.out.println("     " + result);
                 System.out.println("     " + tasks[id]);
                 System.out.println("    ____________________________________________________________");
-            }else {
-                HeyJudy.addItem(userCommand);
+            } else if (userCommand.startsWith("todo ")) {
+                addToDo(userCommand.substring(5));
+            } else if (userCommand.startsWith("deadline ")) {
+                addDeadline(userCommand.substring(5));
+            } else if (userCommand.startsWith("event ")) {
+                addEvent(userCommand.substring(5));
+            } else {
+                System.out.println("    ____________________________________________________________");
+                System.out.println("     idk what you are doing "
+                        + ":< please input deadline/todo/event/mark before your inputs");
+                System.out.println("    ____________________________________________________________");
             }
         }
 
