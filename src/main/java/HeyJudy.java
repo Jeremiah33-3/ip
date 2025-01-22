@@ -5,7 +5,7 @@ public class HeyJudy {
     private static int count = 0;
     public static void greetUser() {
         System.out.println("____________________________________________________________");
-        System.out.println(" Hello! I'm HeyJudy.");
+        System.out.println(" Hello! I'm your angsty chatbot, HeyJudy.");
         System.out.println(" What can I do for you?");
         System.out.println("____________________________________________________________");
     }
@@ -21,7 +21,8 @@ public class HeyJudy {
         if (tokens.length < 2) {
             System.out.println("    ____________________________________________________________");
             System.out.println("     Why are you not giving me your details? "
-                    + "How can I set deadline for you??");
+                    + "How can I set deadline for you?? Format:\n"
+                    + "       deadline <description> /by <deadline>");
             System.out.println("    ____________________________________________________________");
         } else {
             Deadline deadline = new Deadline(tokens[0], count, tokens[1]);
@@ -35,7 +36,8 @@ public class HeyJudy {
         String[] tokens = details.split(" /from | /to ");
         if (tokens.length < 3) {
             System.out.println("    ____________________________________________________________");
-            System.out.println("     You not giving me enough inputs, how i do for you??");
+            System.out.println("     You not giving me enough inputs, how i do for you?? Format:\n "
+                    + "      event <description> /from <start date> /to <end date>");
             System.out.println("    ____________________________________________________________");
         } else {
             Event event = new Event(tokens[0], count, tokens[1], tokens[2]);
@@ -64,13 +66,16 @@ public class HeyJudy {
     }
     public static void exit() {
         System.out.println("    ____________________________________________________________");
-        System.out.println("         Bye. Hope to see you again soon!");
+        System.out.println("         Bye. I hope you are more organised now.");
         System.out.println("    ____________________________________________________________");
     }
     public static void listTask() {
         if (count == 0) {
             System.out.println("    ____________________________________________________________");
-            System.out.println("        Psss, I don't see any task yet. Please add");
+            System.out.println("        Psss, I don't see any task yet. Please add. Directory:\n"
+                    + "      1. todo <description>\n"
+                    + "      2. deadline <description> /by <deadline>\n"
+                    + "      3. event <description> /from <start date> /to <end date>\n");
             System.out.println("    ____________________________________________________________");
         } else {
             System.out.println("    ____________________________________________________________");
@@ -106,7 +111,8 @@ public class HeyJudy {
                 String[] splittedCommands = userCommand.split(" ");
                 if (splittedCommands.length < 2) {
                     System.out.println("    ____________________________________________________________");
-                    System.out.println("     what task, bro? no task given to me!");
+                    System.out.println("     what task, bro? no task given to me! "
+                            + "please format as: \n mark/unmark <task number>");
                     System.out.println("    ____________________________________________________________");
                     continue;
                 }
@@ -125,9 +131,9 @@ public class HeyJudy {
                 System.out.println("    ____________________________________________________________");
             } else if (userCommand.startsWith("todo ")) {
                 addToDo(userCommand.substring(5));
-            } else if (userCommand.startsWith("deadline ")) {
+            } else if (userCommand.startsWith("deadline")) {
                 addDeadline(userCommand.substring(5));
-            } else if (userCommand.startsWith("event ")) {
+            } else if (userCommand.startsWith("event")) {
                 addEvent(userCommand.substring(5));
             } else {
                 System.out.println("    ____________________________________________________________");
