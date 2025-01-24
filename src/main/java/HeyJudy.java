@@ -79,11 +79,11 @@ public class HeyJudy {
 
         Task removedTask = tasks.remove(taskIndex);
         count--;
-        System.out.println("____________________________________________________________");
-        System.out.println(" Noted. I've removed this task:");
-        System.out.println("   " + removedTask);
-        System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
-        System.out.println("____________________________________________________________");
+        System.out.println("    ____________________________________________________________");
+        System.out.println("     Noted. I've removed this task:");
+        System.out.println("       " + removedTask);
+        System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
+        System.out.println("    ____________________________________________________________");
     }
 
     public static String markTask(String action, Task task) {

@@ -1,0 +1,3 @@
+Comparing files .\TEXT-UI-TEST\ACTUAL.TXT and .\TEXT-UI-TEST\EXPECTED_TEST.TXT
+FC: no differences encountered
+

@@ -1,0 +1,11 @@
+kdls;akds
+deadline
+todo read jane eyre
+deadline 2103 ip project /by friday 1600
+event project meeting /from Mon 2pm /to 4pm
+list
+mark 1
+unmark 1
+delete 2
+list
+bye
