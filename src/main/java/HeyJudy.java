@@ -1,8 +1,14 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class HeyJudy {
+    private static final String FILE_PATH = "./data/task_manager.txt";
     private static final ArrayList<Task> tasks = new ArrayList<>();
+    private static final FileManager fm = new FileManager(tasks, FILE_PATH);
     private static int count = 0;
     public static void greetUser() {
         System.out.println("____________________________________________________________");
@@ -15,6 +21,7 @@ public class HeyJudy {
         tasks.add(toDo);
         count++;
         printTask(toDo);
+        fm.saveTasksToFile(tasks);
     }
 
     public static void addDeadline(String details) {
@@ -30,6 +37,7 @@ public class HeyJudy {
             tasks.add(deadline);
             count++;
             printTask(deadline);
+            fm.saveTasksToFile(tasks);
         }
     }
 
@@ -45,6 +53,7 @@ public class HeyJudy {
             tasks.add(event);
             count++;
             printTask(event);
+            fm.saveTasksToFile(tasks);
         }
     }
 
@@ -79,6 +88,7 @@ public class HeyJudy {
 
         Task removedTask = tasks.remove(taskIndex);
         count--;
+        fm.saveTasksToFile(tasks);
         System.out.println("    ____________________________________________________________");
         System.out.println("     Noted. I've removed this task:");
         System.out.println("       " + removedTask);
@@ -92,12 +102,14 @@ public class HeyJudy {
                 return "You okay? This item is already marked done...";
             }
             task.setIsDone();
+            fm.saveTasksToFile(tasks);
             return "Nice! I've marked this task as done:";
         } else if (action.equalsIgnoreCase("unmark")) {
             if (!task.getIsDone()) {
                 return "You did not mark this as done, no panic...";
             }
             task.setIsDone();
+            fm.saveTasksToFile(tasks);
             return "OK, I've marked this task as not done yet:";
         } else {
             return "unrecognised command :(";
@@ -132,6 +144,31 @@ public class HeyJudy {
         System.out.println("      " + task);
         System.out.println("      Now you have " + (count) + " tasks in the list.");
         System.out.println("    ____________________________________________________________");
+    }
+
+    public static void loadTasksFromFile() {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            return; // No saved tasks, start fresh
+        }
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Task task = fm.parseTaskFromFile(line);
+                if (task != null) {
+                    tasks.add(task);
+                    count++;
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("    ____________________________________________________________");
+            System.out.println("     Sad, your task list file is corrupted. "
+                    + "I'm pretending it never existed.");
+            System.out.println("    ____________________________________________________________");
+        }
     }
 
     public static void readCommand() {
@@ -194,6 +231,7 @@ public class HeyJudy {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
         HeyJudy.greetUser();
+        HeyJudy.loadTasksFromFile();
         HeyJudy.readCommand();
     }
 }

@@ -16,5 +16,8 @@ bin/
 # ignores .class files
 .class
 
+# a place to store user's task list
+data/
+
 /text-ui-test/ACTUAL.TXT
 text-ui-test/EXPECTED-UNIX.TXT
