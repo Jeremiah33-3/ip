@@ -2,13 +2,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class HeyJudy {
     private static final String FILE_PATH = "./data/task_manager.txt";
     private static final ArrayList<Task> tasks = new ArrayList<>();
-    private static final FileManager fm = new FileManager(tasks, FILE_PATH);
+    private static final FileManager fm = new FileManager(FILE_PATH);
     private static int count = 0;
     public static void greetUser() {
         System.out.println("____________________________________________________________");
@@ -30,7 +33,7 @@ public class HeyJudy {
             System.out.println("    ____________________________________________________________");
             System.out.println("     Why are you not giving me your details? "
                     + "How can I set deadline for you?? Format:\n"
-                    + "       deadline <description> /by <deadline>");
+                    + "       deadline <description> /by <yyyy-mm-dd HH:mm>");
             System.out.println("    ____________________________________________________________");
         } else {
             Deadline deadline = new Deadline(tokens[0], tokens[1]);
@@ -46,10 +49,10 @@ public class HeyJudy {
         if (tokens.length < 3) {
             System.out.println("    ____________________________________________________________");
             System.out.println("     You not giving me enough inputs, how i do for you?? Format:\n "
-                    + "      event <description> /from <start date> /to <end date>");
+                    + "      event <description> /from <yyyy-mm-dd> /to <yyyy-mm-dd>");
             System.out.println("    ____________________________________________________________");
         } else {
-            Event event = new Event(tokens[0], tokens[1], tokens[2]);
+            Event event = new Event(tokens[0].trim(), tokens[1], tokens[2]);
             tasks.add(event);
             count++;
             printTask(event);
@@ -125,8 +128,8 @@ public class HeyJudy {
             System.out.println("    ____________________________________________________________");
             System.out.println("     Psss, I don't see any task yet. Please add. Directory:\n"
                     + "      1. todo <description>\n"
-                    + "      2. deadline <description> /by <deadline>\n"
-                    + "      3. event <description> /from <start date> /to <end date>\n");
+                    + "      2. deadline <description> /by <yyyy-mm-dd HH:mm>\n"
+                    + "      3. event <description> /from <yyyy-mm-dd> /to <yyyy-mm-dd>\n");
             System.out.println("    ____________________________________________________________");
         } else {
             System.out.println("    ____________________________________________________________");
@@ -167,6 +170,42 @@ public class HeyJudy {
             System.out.println("    ____________________________________________________________");
             System.out.println("     Sad, your task list file is corrupted. "
                     + "I'm pretending it never existed.");
+            System.out.println("    ____________________________________________________________");
+        }
+    }
+
+    public static void findTasksOnDate(String dateStr) {
+        try {
+            LocalDate searchDate = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            ArrayList<Task> matchingTasks = new ArrayList<>();
+
+            for (Task task : tasks) {
+                if (task instanceof Deadline) {
+                    if (((Deadline) task).getBy().toLocalDate().equals(searchDate)) {
+                        matchingTasks.add(task);
+                    }
+                } else if (task instanceof Event) {
+                    if (((Event) task).getFrom().equals(searchDate) ||
+                            ((Event) task).getTo().equals(searchDate)) {
+                        matchingTasks.add(task);
+                    }
+                }
+            }
+
+            System.out.println("    ____________________________________________________________");
+            if (matchingTasks.isEmpty()) {
+                System.out.println("     No deadlines/events found on " + searchDate + ".");
+            } else {
+                System.out.println("     Tasks on " + searchDate + ":");
+                for (Task task : matchingTasks) {
+                    System.out.println("     " + task);
+                }
+            }
+            System.out.println("    ____________________________________________________________");
+
+        } catch (DateTimeParseException e) {
+            System.out.println("    ____________________________________________________________");
+            System.out.println("     Invalid date format! You should use yyyy-MM-dd (e.g., 2019-12-02).");
             System.out.println("    ____________________________________________________________");
         }
     }
@@ -213,6 +252,8 @@ public class HeyJudy {
                 addEvent(userCommand.substring(5));
             } else if (userCommand.startsWith("delete")) {
                 HeyJudy.deleteTask(userCommand);
+            }else if (userCommand.startsWith("find ")) {
+                findTasksOnDate(userCommand.substring(5));
             }else {
                 System.out.println("    ____________________________________________________________");
                 System.out.println("     idk what you are doing "

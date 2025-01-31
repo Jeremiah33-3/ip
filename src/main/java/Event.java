@@ -1,17 +1,38 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
-    protected String from;
-    protected String to;
+    protected LocalDate from;
+    protected LocalDate to;
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
     public Event(String description, String from, String to) {
+        super(description);
+        this.from = LocalDate.parse(from, INPUT_FORMATTER);
+        this.to = LocalDate.parse(to, INPUT_FORMATTER);
+    }
+
+    public Event(String description, LocalDate from, LocalDate to) {
         super(description);
         this.from = from;
         this.to = to;
     }
 
+    public LocalDate getFrom() {
+        return from;
+    }
+
+    public LocalDate getTo() {
+        return to;
+    }
+
     @Override
     public String toString() {
+        String formattedFrom = from.format(OUTPUT_FORMATTER);
+        String formattedTo = to.format(OUTPUT_FORMATTER);
         return "[E]" + "[" + this.getStatusIcon() + "] " + this.description
-                + " (from: " + from
-                + " to: " + to + ")";
+                + " (from: " + formattedFrom
+                + " to: " + formattedTo + ")";
     }
 }

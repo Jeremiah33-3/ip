@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class FileManager {
     private final String FILE_PATH;
 
-    public FileManager(ArrayList<Task> tasks, String path) {
+    public FileManager(String path) {
         this.FILE_PATH = path;
     }
 
@@ -42,7 +42,9 @@ public class FileManager {
                     task = new ToDo(description);
                     break;
                 case "D":
-                    task = new Deadline(description, parts[3]);
+                    String[] dateTime = parts[3].split("T");
+                    String formattedDateTime = dateTime[0] + " " + dateTime[1];
+                    task = new Deadline(description, formattedDateTime);
                     break;
                 case "E":
                     task = new Event(description, parts[3], parts[4]);
