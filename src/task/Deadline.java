@@ -1,19 +1,14 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class Deadline extends Task {
     protected LocalDateTime by;
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
 
-    public Deadline(String description, String by) throws UserInputException {
+    public Deadline(String description, String by) {
         super(description);
-        try {
-            this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
-        } catch (DateTimeParseException e){
-            throw new UserInputException("     hellu humans, please type date in this format: yyyy-mm-dd HH:mm");
-        }
+        this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
     }
 
     public LocalDateTime getBy() {
