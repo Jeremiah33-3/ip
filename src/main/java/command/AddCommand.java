@@ -1,3 +1,12 @@
+package command;
+
+import exception.UserInputException;
+import storage.Storage;
+import task.Deadline;
+import task.Event;
+import task.ToDo;
+import tasklist.TaskList;
+
 public class AddCommand extends Command {
     private String taskType;
     private String description;
@@ -33,7 +42,7 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage fm) throws UserInputException{
+    public void execute(TaskList tasks, Storage fm) throws UserInputException {
         switch (this.taskType) {
             case "todo":
                 addToDo(tasks, fm);
@@ -53,7 +62,7 @@ public class AddCommand extends Command {
         ToDo toDo = new ToDo(this.description);
         tasks.addTask(toDo);
         fm.saveTasksToFile(tasks);
-        HeyJudy.printTask(toDo);
+        tasks.printTaskAdded(toDo);
     }
 
     private void addDeadline(TaskList tasks, Storage fm) throws UserInputException {
@@ -61,9 +70,9 @@ public class AddCommand extends Command {
             Deadline deadline = new Deadline(this.description, this.by);
             tasks.addTask(deadline);
             fm.saveTasksToFile(tasks);
-            HeyJudy.printTask(deadline);
+            tasks.printTaskAdded(deadline);
         } catch (UserInputException e) {
-            throw new UserInputException(e.message);
+            throw new UserInputException(e.getMessage());
         }
     }
 
@@ -71,6 +80,6 @@ public class AddCommand extends Command {
         Event event = new Event(description.trim(), from, to);
         tasks.addTask(event);
         fm.saveTasksToFile(tasks);
-        HeyJudy.printTask(event);
+        tasks.printTaskAdded(event);
     }
 }

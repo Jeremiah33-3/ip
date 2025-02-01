@@ -1,23 +1,29 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+package storage;
+
+import task.Deadline;
+import task.Event;
+import task.Task;
+import task.ToDo;
+import tasklist.TaskList;
+
+import java.io.*;
 import java.util.ArrayList;
 
-public class FileManager {
+public class Storage {
     private final String FILE_PATH;
 
-    public FileManager(String path) {
+    public Storage(String path) {
         this.FILE_PATH = path;
     }
 
-    public void saveTasksToFile(ArrayList<Task> tasks) {
+    public void saveTasksToFile(TaskList tasks) {
         try {
             File file = new File(this.FILE_PATH);
             file.getParentFile().mkdirs(); // Ensure the directory exists
             BufferedWriter writer = new BufferedWriter(new FileWriter(this.FILE_PATH));
+            ArrayList<Task> tasksToWrite = tasks.getTasks();
 
-            for (Task task : tasks) {
+            for (Task task : tasksToWrite) {
                 writer.write(taskToFileFormat(task));
                 writer.newLine();
             }
@@ -33,7 +39,7 @@ public class FileManager {
         try {
             String[] parts = line.split(" \\| ");
             String type = parts[0];
-            boolean isDone = parts[1].equals("1");
+            boolean isDone = parts[1].equals("X");
             String description = parts[2];
 
             Task task;
@@ -62,6 +68,29 @@ public class FileManager {
         }
     }
 
+    public void loadTasksFromFile(TaskList tasks) {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            return; // No saved tasks, start fresh
+        }
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Task task = parseTaskFromFile(line);
+                if (task != null) {
+                    tasks.addTask(task);
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("    ____________________________________________________________");
+            System.out.println("     Sad, your task list file is corrupted. "
+                    + "I'm pretending it never existed.");
+            System.out.println("    ____________________________________________________________");
+        }
+    }
 
     private static String taskToFileFormat(Task task) {
         if (task instanceof ToDo) {

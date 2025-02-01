@@ -1,14 +1,18 @@
+import command.Command;
+import command.ExitCommand;
+import exception.UserInputException;
+import parser.Parser;
+import storage.Storage;
+import task.Task;
+import tasklist.TaskList;
+import ui.UI;
+
 import java.util.Scanner;
 
 public class HeyJudy {
     private static final String FILE_PATH = "./data/task_manager.txt";
     private static final TaskList tasks = new TaskList();
     private static final Storage fm = new Storage(FILE_PATH);
-
-    public static void printTask(Task task) {
-
-        tasks.printTaskAdded(task);
-    }
 
     public static void loadTasksFromFile() {
 
@@ -32,7 +36,7 @@ public class HeyJudy {
                     running = false;
                 }
             } catch (UserInputException e) {
-                UI.formattedReply(e.message);
+                UI.formattedReply(e.getMessage());
             }
         }
 

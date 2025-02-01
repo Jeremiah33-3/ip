@@ -1,3 +1,10 @@
+package command;
+
+import exception.UserInputException;
+import storage.Storage;
+import task.Task;
+import tasklist.TaskList;
+
 public class MarkCommand extends Command {
     private int taskID;
     private String action;
@@ -17,7 +24,7 @@ public class MarkCommand extends Command {
         System.out.println("    ____________________________________________________________");
     }
 
-    private String markATask(TaskList tasks) throws UserInputException{
+    private String markATask(TaskList tasks) throws UserInputException {
         if (taskID >= tasks.size() || taskID < 0) {
             throw new UserInputException("invalid task number, why are you not checking...");
         }

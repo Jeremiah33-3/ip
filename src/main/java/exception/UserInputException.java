@@ -1,3 +1,5 @@
+package exception;
+
 public class UserInputException extends Exception{
     String message;
     public UserInputException(String message) {

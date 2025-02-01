@@ -21,8 +21,8 @@ REM run the program, feed commands from input.txt file and redirect the output t
 java -classpath ..\bin HeyJudy < .\text-ui-test\input.txt > .\text-ui-test\ACTUAL.TXT
 
 REM Convert ACTUAL.TXT and EXPECTED.TXT to Unix format (LF line endings)
-powershell -Command "(gc .\text-ui-test\ACTUAL.TXT) -replace '`r', '' -replace '\s+$', '' | sc .\text-ui-test\ACTUAL.TXT"
-powershell -Command "(gc .\text-ui-test\EXPECTED.TXT) -replace '`r', '' -replace '\s+$', '' | sc .\text-ui-test\EXPECTED_TEST.TXT"
+powershell -command.Command "(gc .\text-ui-test\ACTUAL.TXT) -replace '`r', '' -replace '\s+$', '' | sc .\text-ui-test\ACTUAL.TXT"
+powershell -command.Command "(gc .\text-ui-test\EXPECTED.TXT) -replace '`r', '' -replace '\s+$', '' | sc .\text-ui-test\EXPECTED_TEST.TXT"
 
 REM compare the output to the expected output
 FC .\text-ui-test\ACTUAL.TXT .\text-ui-test\EXPECTED_TEST.TXT > .\text-ui-test\DIFFERENCES.TXT

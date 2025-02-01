@@ -1,3 +1,5 @@
+package ui;
+
 public class UI {
     public static void formattedReply(String reply) {
         System.out.println("    ____________________________________________________________");

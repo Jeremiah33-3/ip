@@ -1,3 +1,8 @@
+package parser;
+
+import command.*;
+import exception.UserInputException;
+
 public class Parser {
     public static Command parse(String userCommand) throws UserInputException {
         String[] splittedCommands = userCommand.split(" ");
