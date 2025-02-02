@@ -15,12 +15,6 @@ public class Event extends Task {
         this.to = LocalDate.parse(to, INPUT_FORMATTER);
     }
 
-    public Event(String description, LocalDate from, LocalDate to) {
-        super(description);
-        this.from = from;
-        this.to = to;
-    }
-
     public LocalDate getFrom() {
         return from;
     }
