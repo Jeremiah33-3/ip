@@ -48,4 +48,11 @@ public class MarkCommand extends Command {
         }
     }
 
+    public String getAction() {
+        return this.action;
+    }
+
+    public int getTaskID() {
+        return taskID;
+    }
 }

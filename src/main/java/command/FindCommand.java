@@ -55,4 +55,8 @@ public class FindCommand extends Command {
             throw new UserInputException(message);
         }
     }
+
+    public String getDate() {
+        return this.dateStr;
+    }
 }

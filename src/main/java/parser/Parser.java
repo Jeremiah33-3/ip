@@ -1,6 +1,12 @@
 package parser;
 
-import command.*;
+import command.AddCommand;
+import command.Command;
+import command.DeleteCommand;
+import command.ExitCommand;
+import command.FindCommand;
+import command.ListCommand;
+import command.MarkCommand;
 import exception.UserInputException;
 
 public class Parser {
@@ -27,7 +33,7 @@ public class Parser {
             } else if (userCommand.startsWith("todo ")) {
                 return new AddCommand("todo", splittedCommands[1]);
             } else if (userCommand.startsWith("deadline")) {
-                String details = userCommand.substring(8);
+                String details = userCommand.substring(9);
                 String[] tokens = details.split(" /by ", 2);
                 if (tokens.length < 2) {
                     throw new UserInputException("Why are you not giving me your details? "

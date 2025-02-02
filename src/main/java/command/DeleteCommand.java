@@ -33,4 +33,8 @@ public class DeleteCommand extends Command {
         System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
         UI.printLines();
     }
+
+    public int getTaskID() {
+        return this.taskID;
+    }
 }

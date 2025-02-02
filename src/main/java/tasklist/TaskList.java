@@ -4,12 +4,10 @@ import task.Task;
 
 import java.util.ArrayList;
 public class TaskList {
-    private static final ArrayList<Task> tasks = new ArrayList<>();
-    private static int count = 0;
+    private final ArrayList<Task> tasks = new ArrayList<>();
 
     public void addTask(Task task) {
         tasks.add(task);
-        count++;
     }
 
     public ArrayList<Task> getTasks() {
@@ -18,7 +16,6 @@ public class TaskList {
 
     public Task removeTask(int index) {
         Task task = tasks.remove(index);
-        count--;
         return task;
     }
 
@@ -34,7 +31,7 @@ public class TaskList {
         System.out.println("    ____________________________________________________________");
         System.out.println("      Got it. I've added this task: ");
         System.out.println("      " + task);
-        System.out.println("      Now you have " + (count) + " tasks in the list.");
+        System.out.println("      Now you have " + tasks.size() + " tasks in the list.");
         System.out.println("    ____________________________________________________________");
     }
 }

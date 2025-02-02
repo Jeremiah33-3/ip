@@ -82,4 +82,24 @@ public class AddCommand extends Command {
         fm.saveTasksToFile(tasks);
         tasks.printTaskAdded(event);
     }
+
+    public String getType() {
+        return this.taskType;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public String getBy() {
+        return this.by;
+    }
+
+    public String getFrom() {
+        return this.from;
+    }
+
+    public String getTo() {
+        return this.to;
+    }
 }
