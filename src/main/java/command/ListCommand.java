@@ -5,6 +5,9 @@ import storage.Storage;
 import tasklist.TaskList;
 import ui.UI;
 
+/**
+ * Represents a command to list all tasks from the task list.
+ */
 public class ListCommand extends Command {
     @Override
     public void execute(TaskList tasks, Storage fm) throws UserInputException {

@@ -7,6 +7,10 @@ import task.Event;
 import task.ToDo;
 import tasklist.TaskList;
 
+/**
+ * Represents a command to add a task to the task list.
+ * The task can be of type ToDo, Deadline, or Event.
+ */
 public class AddCommand extends Command {
     private String taskType;
     private String description;
@@ -14,7 +18,12 @@ public class AddCommand extends Command {
     private String to;
     private String by;
 
-    // todo
+    /**
+     * Constructs an AddCommand for a ToDo task.
+     *
+     * @param taskType    The type of the task (e.g., "todo").
+     * @param description The description of the task.
+     */
     public AddCommand(String taskType, String description) {
         this.taskType = taskType;
         this.description = description;
@@ -23,7 +32,13 @@ public class AddCommand extends Command {
         this.by = null;
     }
 
-    // deadline
+    /**
+     * Constructs an AddCommand for a Deadline task.
+     *
+     * @param taskType    The type of the task (e.g., "deadline").
+     * @param description The description of the task.
+     * @param by          The deadline date/time for the task.
+     */
     public AddCommand(String taskType, String description, String by) {
         this.taskType = taskType;
         this.description = description;
@@ -32,7 +47,14 @@ public class AddCommand extends Command {
         this.by = by;
     }
 
-    // event
+    /**
+     * Constructs an AddCommand for an Event task.
+     *
+     * @param taskType    The type of the task (e.g., "event").
+     * @param description The description of the task.
+     * @param from        The start date/time of the event.
+     * @param to          The end date/time of the event.
+     */
     public AddCommand(String taskType, String description, String from, String to) {
         this.taskType = taskType;
         this.description = description;
@@ -58,6 +80,12 @@ public class AddCommand extends Command {
         }
     }
 
+    /**
+     * Adds a ToDo task to the task list and saves the updated list to storage.
+     *
+     * @param tasks The task list to which the ToDo task will be added.
+     * @param fm    The storage object used to save the updated task list.
+     */
     private void addToDo(TaskList tasks, Storage fm) {
         ToDo toDo = new ToDo(this.description);
         tasks.addTask(toDo);
@@ -65,6 +93,13 @@ public class AddCommand extends Command {
         tasks.printTaskAdded(toDo);
     }
 
+    /**
+     * Adds a Deadline task to the task list and saves the updated list to storage.
+     *
+     * @param tasks The task list to which the Deadline task will be added.
+     * @param fm    The storage object used to save the updated task list.
+     * @throws UserInputException If there is an error in user input (e.g., invalid date format).
+     */
     private void addDeadline(TaskList tasks, Storage fm) throws UserInputException {
         try {
             Deadline deadline = new Deadline(this.description, this.by);
@@ -76,6 +111,12 @@ public class AddCommand extends Command {
         }
     }
 
+    /**
+     * Adds an Event task to the task list and saves the updated list to storage.
+     *
+     * @param tasks The task list to which the Event task will be added.
+     * @param fm    The storage object used to save the updated task list.
+     */
     private void addEvent(TaskList tasks, Storage fm) {
         Event event = new Event(description.trim(), from, to);
         tasks.addTask(event);
