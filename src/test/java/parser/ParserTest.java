@@ -83,7 +83,7 @@ public class ParserTest {
         Command command = Parser.parse("find book");
         assertTrue(command instanceof FindCommand);
         FindCommand findCommand = (FindCommand) command;
-        assertEquals("book", findCommand.getDate());
+        assertEquals("book", findCommand.getQuery());
     }
 
     @Test

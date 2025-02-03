@@ -28,7 +28,7 @@ public class HeyJudy {
                 userCommand = scanner.nextLine();
                 Command command = Parser.parse(userCommand);
                 if (command == null) {
-                    throw new UserInputException("hmmm... don't want to admit it, but i might have a bug..");
+                    throw new UserInputException("are you typing the correct commands??");
                 }
                 command.execute(TASK_LIST, STORAGE);
                 if (command instanceof ExitCommand) {
