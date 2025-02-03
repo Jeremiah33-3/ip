@@ -10,12 +10,12 @@ import java.util.Scanner;
 
 public class HeyJudy {
     private static final String FILE_PATH = "./data/task_manager.txt";
-    private static final TaskList tasks = new TaskList();
-    private static final Storage fm = new Storage(FILE_PATH);
+    private static final TaskList TASK_LIST = new TaskList();
+    private static final Storage STORAGE = new Storage(FILE_PATH);
 
     public static void loadTasksFromFile() {
 
-        fm.loadTasksFromFile(tasks);
+        STORAGE.loadTasksFromFile(TASK_LIST);
     }
 
     public static void readCommand() {
@@ -30,7 +30,7 @@ public class HeyJudy {
                 if (command == null) {
                     throw new UserInputException("hmmm... don't want to admit it, but i might have a bug..");
                 }
-                command.execute(tasks, fm);
+                command.execute(TASK_LIST, STORAGE);
                 if (command instanceof ExitCommand) {
                     running = false;
                 }

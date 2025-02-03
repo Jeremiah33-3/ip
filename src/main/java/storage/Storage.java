@@ -49,19 +49,19 @@ public class Storage {
 
             Task task;
             switch (type) {
-                case "T":
-                    task = new ToDo(description);
-                    break;
-                case "D":
-                    String[] dateTime = parts[3].split("T");
-                    String formattedDateTime = dateTime[0] + " " + dateTime[1];
-                    task = new Deadline(description, formattedDateTime);
-                    break;
-                case "E":
-                    task = new Event(description, parts[3], parts[4]);
-                    break;
-                default:
-                    return null;
+            case "T":
+                task = new ToDo(description);
+                break;
+            case "D":
+                String[] dateTime = parts[3].split("T");
+                String formattedDateTime = dateTime[0] + " " + dateTime[1];
+                task = new Deadline(description, formattedDateTime);
+                break;
+            case "E":
+                task = new Event(description, parts[3], parts[4]);
+                break;
+            default:
+                return null;
             }
 
             if (isDone) {

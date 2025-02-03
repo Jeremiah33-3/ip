@@ -44,17 +44,17 @@ public class AddCommand extends Command {
     @Override
     public void execute(TaskList tasks, Storage fm) throws UserInputException {
         switch (this.taskType) {
-            case "todo":
-                addToDo(tasks, fm);
-                break;
-            case "deadline":
-                addDeadline(tasks, fm);
-                break;
-            case "event":
-                addEvent(tasks, fm);
-                break;
-            default:
-                break;
+        case "todo":
+            addToDo(tasks, fm);
+            break;
+        case "deadline":
+            addDeadline(tasks, fm);
+            break;
+        case "event":
+            addEvent(tasks, fm);
+            break;
+        default:
+            break;
         }
     }
 
