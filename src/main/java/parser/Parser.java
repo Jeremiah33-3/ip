@@ -9,7 +9,20 @@ import command.ListCommand;
 import command.MarkCommand;
 import exception.UserInputException;
 
+/**
+ * Parses user input commands and returns the corresponding Command object.
+ * This class is responsible for interpreting user input and creating the appropriate command
+ * to be executed by the application.
+ */
 public class Parser {
+
+    /**
+     * Parses the user input and returns the corresponding Command object.
+     *
+     * @param userCommand The full user input as a string.
+     * @return A Command object corresponding to the user's input.
+     * @throws UserInputException If the user input is invalid or incomplete.
+     */
     public static Command parse(String userCommand) throws UserInputException {
         String[] splittedCommands = userCommand.split(" ");
 

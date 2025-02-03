@@ -5,10 +5,19 @@ import storage.Storage;
 import task.Task;
 import tasklist.TaskList;
 
+/**
+ * Represents a command to mark a task as done or undone.
+ */
 public class MarkCommand extends Command {
     private int taskID;
     private String action;
 
+    /**
+     * Constructs a MarkCommand with the action and the specified task ID.
+     *
+     * @param action The action to perform: mark or unmark
+     * @param taskID The ID of the task to be deleted.
+     */
     public MarkCommand(String action, int taskID) {
         this.action = action;
         this.taskID = taskID;
@@ -24,6 +33,12 @@ public class MarkCommand extends Command {
         System.out.println("    ____________________________________________________________");
     }
 
+    /**
+     * Marks a task as done or undone according to the action the user has provided.
+     *
+     * @param tasks The task list that might contain the specific task to be marked.
+     * @throws UserInputException If user is accessing a non-existent task (wrong index).
+     */
     private String markATask(TaskList tasks) throws UserInputException {
         if (taskID >= tasks.size() || taskID < 0) {
             throw new UserInputException("invalid task number, why are you not checking...");

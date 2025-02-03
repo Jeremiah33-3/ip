@@ -1,5 +1,6 @@
 package storage;
 
+import exception.UserInputException;
 import task.Deadline;
 import task.Event;
 import task.Task;
@@ -14,13 +15,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Represents a storage that deals with operations between the tasks
+ * in a task list and the file used to save tasks.
+ * It includes loading, saving, formatting and parsing files from the task list.
+ */
 public class Storage {
     private final String FILE_PATH;
 
+    /**
+     * Constructs a Storage based on the given file path.
+     *
+     * @param path The path to the file in user's harddisk.
+     */
     public Storage(String path) {
         this.FILE_PATH = path;
     }
 
+    /**
+     * Saves the tasks in the task list to the file on user's hard disk.
+     *
+     * @param tasks The task list that contains the tasks to be saved.
+     */
     public void saveTasksToFile(TaskList tasks) {
         try {
             File file = new File(this.FILE_PATH);
@@ -40,6 +56,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Parses each task from the file from String representation to a Task object.
+     *
+     * @param line The string representing the task.
+     */
     public Task parseTaskFromFile(String line) {
         try {
             String[] parts = line.split(" \\| ");
@@ -73,6 +94,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads the tasks from the file to the given TaskList object.
+     *
+     * @param tasks The TaskList object receiving the Task objects.
+     */
     public void loadTasksFromFile(TaskList tasks) {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
@@ -97,6 +123,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Parses a task from the Task object to String that is savable in a file.
+     *
+     * @param task The task to be parsed.
+     */
     private static String taskToFileFormat(Task task) {
         if (task instanceof ToDo) {
             return "T | " + (task.getStatusIcon()) + " | " + task.description;
