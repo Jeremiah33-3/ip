@@ -1,8 +1,8 @@
 package tasklist;
 
-import task.Task;
-
 import java.util.ArrayList;
+
+import task.Task;
 
 /**
  * Represents a list of tasks and provides methods to manage them.

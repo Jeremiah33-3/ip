@@ -1,7 +1,5 @@
 package ui;
 
-import exception.UserInputException;
-
 /**
  * A utility class that helps with user interaction by formatting the bot's replies.
  */

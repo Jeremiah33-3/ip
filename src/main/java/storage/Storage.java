@@ -1,12 +1,5 @@
 package storage;
 
-import exception.UserInputException;
-import task.Deadline;
-import task.Event;
-import task.Task;
-import task.ToDo;
-import tasklist.TaskList;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,13 +8,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import task.Deadline;
+import task.Event;
+import task.Task;
+import task.ToDo;
+import tasklist.TaskList;
+
 /**
  * Represents a storage that deals with operations between the tasks
  * in a task list and the file used to save tasks.
  * It includes loading, saving, formatting and parsing files from the task list.
  */
 public class Storage {
-    private final String FILE_PATH;
+    private final String filePath;
 
     /**
      * Constructs a Storage based on the given file path.
@@ -29,7 +28,7 @@ public class Storage {
      * @param path The path to the file in user's harddisk.
      */
     public Storage(String path) {
-        this.FILE_PATH = path;
+        this.filePath = path;
     }
 
     /**
@@ -39,9 +38,9 @@ public class Storage {
      */
     public void saveTasksToFile(TaskList tasks) {
         try {
-            File file = new File(this.FILE_PATH);
+            File file = new File(this.filePath);
             file.getParentFile().mkdirs(); // Ensure the directory exists
-            BufferedWriter writer = new BufferedWriter(new FileWriter(this.FILE_PATH));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath));
             ArrayList<Task> tasksToWrite = tasks.getTasks();
 
             for (Task task : tasksToWrite) {
@@ -100,13 +99,13 @@ public class Storage {
      * @param tasks The TaskList object receiving the Task objects.
      */
     public void loadTasksFromFile(TaskList tasks) {
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
         if (!file.exists()) {
             return; // No saved tasks, start fresh
         }
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
             while ((line = reader.readLine()) != null) {
                 Task task = parseTaskFromFile(line);
@@ -132,9 +131,11 @@ public class Storage {
         if (task instanceof ToDo) {
             return "T | " + (task.getStatusIcon()) + " | " + task.description;
         } else if (task instanceof Deadline) {
-            return "D | " + (task.getStatusIcon()) + " | " + task.description + " | " + ((Deadline) task).by;
+            return "D | " + (task.getStatusIcon()) + " | "
+                    + task.description + " | " + ((Deadline) task).getBy();
         } else if (task instanceof Event) {
-            return "E | " + (task.getStatusIcon()) + " | " + task.description + " | " + ((Event) task).from + " | " + ((Event) task).to;
+            return "E | " + (task.getStatusIcon()) + " | "
+                    + task.description + " | " + ((Event) task).from + " | " + ((Event) task).to;
         }
         return "";
     }
