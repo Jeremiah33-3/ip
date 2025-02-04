@@ -1,5 +1,11 @@
 package command;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+
 import exception.UserInputException;
 import storage.Storage;
 import task.Deadline;
@@ -8,14 +14,10 @@ import task.Task;
 import tasklist.TaskList;
 import ui.UI;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Represents a command to find a task based on dates/keywords.
+ */
 public class FindCommand extends Command {
-    private String query;
     private static final List<DateTimeFormatter> DATE_FORMATS = List.of(
             DateTimeFormatter.ofPattern("yyyy-MM-dd"),
             DateTimeFormatter.ofPattern("dd-MM-yyyy"),
@@ -24,6 +26,13 @@ public class FindCommand extends Command {
             DateTimeFormatter.ofPattern("dd/MM/yyyy")
     );
 
+    private String query;
+
+    /**
+     * Constructs a FindCommand based on the query the user inputted.
+     *
+     * @param query The dateStr/keyword the user inputted.
+     */
     public FindCommand(String query) {
         this.query = query;
     }
@@ -43,6 +52,7 @@ public class FindCommand extends Command {
                 LocalDate.parse(input, formatter);
                 return true;
             } catch (DateTimeParseException ignored) {
+                return false;
             }
         }
         return false;
@@ -59,8 +69,8 @@ public class FindCommand extends Command {
                         matchingTasks.add(task);
                     }
                 } else if (task instanceof Event) {
-                    if (((Event) task).getFrom().equals(searchDate) ||
-                            ((Event) task).getTo().equals(searchDate)) {
+                    if (((Event) task).getFrom().equals(searchDate)
+                            || ((Event) task).getTo().equals(searchDate)) {
                         matchingTasks.add(task);
                     }
                 }

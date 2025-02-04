@@ -1,21 +1,22 @@
 package command;
 
-import command.FindCommand;
 import exception.UserInputException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import storage.Storage;
 import task.Deadline;
 import task.Event;
 import task.ToDo;
 import tasklist.TaskList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FindCommandTest {
+    private static final String TEST_FILE_PATH = "testdata/tasks.txt";
     private TaskList taskList;
     private Storage storage;
-    private static final String TEST_FILE_PATH = "testdata/tasks.txt";
 
     @BeforeEach
     public void setUp() throws UserInputException {
@@ -37,8 +38,8 @@ public class FindCommandTest {
     @Test
     public void testFindByKeyword_noMatchingTasks() {
         FindCommand findCommand = new FindCommand("assignment");
-        Exception exception = assertThrows(UserInputException.class,
-                () -> findCommand.execute(taskList, storage));
+        Exception exception = assertThrows(UserInputException.class, () ->
+                findCommand.execute(taskList, storage));
         assertEquals("     No matching tasks found!", exception.getMessage());
     }
 
@@ -51,8 +52,8 @@ public class FindCommandTest {
     @Test
     public void testFindByDate_noMatchingTasks() {
         FindCommand findCommand = new FindCommand("2024-12-31");
-        Exception exception = assertThrows(UserInputException.class,
-                () -> findCommand.execute(taskList, storage));
+        Exception exception = assertThrows(UserInputException.class, () ->
+                findCommand.execute(taskList, storage));
         assertEquals("     No matching tasks found!", exception.getMessage());
     }
 

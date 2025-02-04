@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
  * Represents an event.
  */
 public class Event extends Task {
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
     /**
      * The start date of the event.
      */
@@ -16,9 +18,6 @@ public class Event extends Task {
      * The end date of the event.
      */
     public LocalDate to;
-
-    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
     /**
      * Constructs a new Event with the specified description and date range as strings.

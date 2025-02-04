@@ -1,8 +1,6 @@
 package storage;
 
 import exception.UserInputException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import task.Deadline;
 import task.Event;
 import task.Task;
@@ -20,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class StorageTest {
     private static final String TEST_FILE_PATH = "testdata/tasks.txt";
