@@ -1,25 +1,26 @@
 package storage;
 
-import exception.UserInputException;
-import task.Deadline;
-import task.Event;
-import task.Task;
-import task.ToDo;
-import tasklist.TaskList;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import exception.UserInputException;
+import task.Deadline;
+import task.Event;
+import task.Task;
+import task.ToDo;
+import tasklist.TaskList;
 
 public class StorageTest {
     private static final String TEST_FILE_PATH = "testdata/tasks.txt";
@@ -48,7 +49,7 @@ public class StorageTest {
         try {
             // Add tasks to the TaskList
             taskList.addTask(new ToDo("Read a book"));
-            taskList.addTask(new Deadline("Submit assignment", "2023-10-15 23:59")); // This may throw UserInputException
+            taskList.addTask(new Deadline("Submit assignment", "2023-10-15 23:59"));
             taskList.addTask(new Event("Team meeting", "2023-10-10", "2023-10-10"));
 
             // Save tasks to file
@@ -80,20 +81,20 @@ public class StorageTest {
         Task todoTask = storage.parseTaskFromFile("T |   | Read a book");
         assertNotNull(todoTask, "Parsed ToDo task should not be null");
         assertTrue(todoTask instanceof ToDo, "Parsed task should be an instance of ToDo");
-        assertEquals("Read a book", todoTask.description, "ToDo description should match");
+        assertEquals("Read a book", todoTask.getDescription(), "ToDo description should match");
 
         // Test parsing a Deadline task
         Task deadlineTask = storage.parseTaskFromFile("D | X | Submit assignment | 2023-10-15T23:59");
         assertNotNull(deadlineTask, "Parsed Deadline task should not be null");
         assertTrue(deadlineTask instanceof Deadline, "Parsed task should be an instance of Deadline");
-        assertEquals("Submit assignment", deadlineTask.description, "Deadline description should match");
+        assertEquals("Submit assignment", deadlineTask.getDescription(), "Deadline description should match");
         assertTrue(deadlineTask.getIsDone(), "Deadline task should be marked as done");
 
         // Test parsing an Event task
         Task eventTask = storage.parseTaskFromFile("E |   | Team meeting | 2023-10-10 | 2023-10-10");
         assertNotNull(eventTask, "Parsed Event task should not be null");
         assertTrue(eventTask instanceof Event, "Parsed task should be an instance of Event");
-        assertEquals("Team meeting", eventTask.description, "Event description should match");
+        assertEquals("Team meeting", eventTask.getDescription(), "Event description should match");
     }
 
     @Test
@@ -119,18 +120,18 @@ public class StorageTest {
         // Verify the first task (ToDo)
         Task todoTask = taskList.getTask(0);
         assertTrue(todoTask instanceof ToDo, "First task should be an instance of ToDo");
-        assertEquals("Read a book", todoTask.description, "ToDo description should match");
+        assertEquals("Read a book", todoTask.getDescription(), "ToDo description should match");
 
         // Verify the second task (Deadline)
         Task deadlineTask = taskList.getTask(1);
         assertTrue(deadlineTask instanceof Deadline, "Second task should be an instance of Deadline");
-        assertEquals("Submit assignment", deadlineTask.description, "Deadline description should match");
+        assertEquals("Submit assignment", deadlineTask.getDescription(), "Deadline description should match");
         assertTrue(deadlineTask.getIsDone(), "Deadline task should be marked as done");
 
         // Verify the third task (Event)
         Task eventTask = taskList.getTask(2);
         assertTrue(eventTask instanceof Event, "Third task should be an instance of Event");
-        assertEquals("Team meeting", eventTask.description, "Event description should match");
+        assertEquals("Team meeting", eventTask.getDescription(), "Event description should match");
     }
 
     @Test

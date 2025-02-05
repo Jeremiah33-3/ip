@@ -1,5 +1,11 @@
 package parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
 import command.AddCommand;
 import command.Command;
 import command.DeleteCommand;
@@ -8,11 +14,6 @@ import command.FindCommand;
 import command.ListCommand;
 import command.MarkCommand;
 import exception.UserInputException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
 
 public class ParserTest {
     @Test

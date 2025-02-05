@@ -12,12 +12,12 @@ public class Event extends Task {
     /**
      * The start date of the event.
      */
-    public LocalDate from;
+    private LocalDate from;
 
     /**
      * The end date of the event.
      */
-    public LocalDate to;
+    private LocalDate to;
 
     /**
      * Constructs a new Event with the specified description and date range as strings.
@@ -55,7 +55,7 @@ public class Event extends Task {
     public String toString() {
         String formattedFrom = from.format(OUTPUT_FORMATTER);
         String formattedTo = to.format(OUTPUT_FORMATTER);
-        return "[E]" + "[" + this.getStatusIcon() + "] " + this.description
+        return "[E]" + "[" + this.getStatusIcon() + "] " + this.getDescription()
                 + " (from: " + formattedFrom
                 + " to: " + formattedTo + ")";
     }

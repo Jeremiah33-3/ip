@@ -88,7 +88,7 @@ public class FindCommand extends Command {
         String lowerCaseQuery = query.toLowerCase();
 
         for (Task task : tasks.getTasks()) {
-            if (task.description.toLowerCase().contains(lowerCaseQuery)) {
+            if (task.getDescription().toLowerCase().contains(lowerCaseQuery)) {
                 matchingTasks.add(task);
             }
         }
