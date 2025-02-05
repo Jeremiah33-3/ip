@@ -1,17 +1,18 @@
 package command;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import exception.UserInputException;
 import storage.Storage;
 import task.Deadline;
 import task.Event;
 import task.ToDo;
 import tasklist.TaskList;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 public class FindCommandTest {
     private static final String TEST_FILE_PATH = "testdata/tasks.txt";
@@ -60,8 +61,8 @@ public class FindCommandTest {
     @Test
     public void testFindByDate_invalidDateFormat() {
         FindCommand findCommand = new FindCommand("06-06-2024");
-        Exception exception = assertThrows(UserInputException.class,
-                () -> findCommand.execute(taskList, storage));
+        Exception exception = assertThrows(UserInputException.class, () ->
+                findCommand.execute(taskList, storage));
         assertEquals("     Excuse me, pls use yyyy-mm-dd (e.g., 2019-12-02).\n",
                 exception.getMessage());
     }

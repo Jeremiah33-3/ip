@@ -7,7 +7,7 @@ public abstract class Task {
     /**
      * Description of the task.
      */
-    public String description;
+    private String description;
 
     /**
      * Indicates whether the task is done.
@@ -49,6 +49,10 @@ public abstract class Task {
      */
     public boolean getIsDone() {
         return this.isDone;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     /**

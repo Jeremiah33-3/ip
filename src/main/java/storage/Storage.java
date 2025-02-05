@@ -129,13 +129,13 @@ public class Storage {
      */
     private static String taskToFileFormat(Task task) {
         if (task instanceof ToDo) {
-            return "T | " + (task.getStatusIcon()) + " | " + task.description;
+            return "T | " + (task.getStatusIcon()) + " | " + task.getDescription();
         } else if (task instanceof Deadline) {
             return "D | " + (task.getStatusIcon()) + " | "
-                    + task.description + " | " + ((Deadline) task).getBy();
+                    + task.getDescription() + " | " + ((Deadline) task).getBy();
         } else if (task instanceof Event) {
             return "E | " + (task.getStatusIcon()) + " | "
-                    + task.description + " | " + ((Event) task).from + " | " + ((Event) task).to;
+                    + task.getDescription() + " | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo();
         }
         return "";
     }
