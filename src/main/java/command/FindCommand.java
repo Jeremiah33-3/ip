@@ -12,7 +12,6 @@ import task.Deadline;
 import task.Event;
 import task.Task;
 import tasklist.TaskList;
-import ui.UI;
 
 /**
  * Represents a command to find a task based on dates/keywords.
@@ -47,14 +46,17 @@ public class FindCommand extends Command {
     }
 
     private boolean isDateFormat(String input) {
-        for (DateTimeFormatter formatter : DATE_FORMATS) {
-            try {
-                LocalDate.parse(input, formatter);
-                return true;
-            } catch (DateTimeParseException ignored) {
-                return false;
+        try {
+            for (DateTimeFormatter formatter : DATE_FORMATS) {
+                LocalDate date = LocalDate.parse(input, formatter);
+                if (date == null) {
+                    return true;
+                }
             }
+        } catch (DateTimeParseException ignored) {
+            return false;
         }
+
         return false;
     }
 
