@@ -10,7 +10,7 @@ import ui.UI;
  */
 public class ListCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Storage fm) throws UserInputException {
+    public String execute(TaskList tasks, Storage fm) throws UserInputException {
         int count = tasks.size();
         if (count == 0) {
             String message = "     Psss, I don't see any task yet. Please add. Directory:\n"
@@ -19,12 +19,12 @@ public class ListCommand extends Command {
                     + "      3. event <description> /from <yyyy-mm-dd> /to <yyyy-mm-dd>\n";
             throw new UserInputException(message);
         } else {
-            UI.printLines();
-            System.out.println("     Here are the tasks in your list:");
+            StringBuilder result = new StringBuilder();
+            result.append("     Here are the tasks in your list:\n");
             for (int i = 0; i < count; i++) {
-                System.out.println("     " + (i + 1) + ". " + tasks.getTask(i));
+                result.append("     ").append(i + 1).append(". ").append(tasks.getTask(i)).append("\n");
             }
-            UI.printLines();
+            return result.toString();
         }
     }
 }

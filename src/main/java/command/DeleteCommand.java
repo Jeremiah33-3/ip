@@ -23,8 +23,8 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage fm) throws UserInputException {
-        deleteTask(tasks, fm);
+    public String execute(TaskList tasks, Storage fm) throws UserInputException {
+        return deleteTask(tasks, fm);
     }
 
     /**
@@ -34,18 +34,16 @@ public class DeleteCommand extends Command {
      * @param fm    The storage object used to save the updated task list.
      * @throws UserInputException If the task ID is invalid (e.g., out of bounds).
      */
-    private void deleteTask(TaskList tasks, Storage fm) throws UserInputException {
+    private String deleteTask(TaskList tasks, Storage fm) throws UserInputException {
         if (taskID >= tasks.size() || taskID < 0) {
             throw new UserInputException("Please get yourself together... this task does not exist. \n"
                     + "Check by listing: list");
         }
         Task removedTask = tasks.removeTask(taskID);
         fm.saveTasksToFile(tasks);
-        UI.printLines();
-        System.out.println("     Noted. I've removed this task:");
-        System.out.println("       " + removedTask);
-        System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
-        UI.printLines();
+        return "Noted. I've removed this task:\n "
+                + removedTask + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.";
     }
 
     public int getTaskID() {

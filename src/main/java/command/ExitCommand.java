@@ -10,7 +10,7 @@ import ui.UI;
  */
 public class ExitCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Storage fm) throws UserInputException {
-        UI.formattedReply("Bye. I hope you are more organised now.");
+    public String execute(TaskList tasks, Storage fm) throws UserInputException {
+        return "Bye. I hope you are more organised now.";
     }
 }

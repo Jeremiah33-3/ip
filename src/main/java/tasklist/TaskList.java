@@ -64,11 +64,9 @@ public class TaskList {
      *
      * @param task The task that was added.
      */
-    public void printTaskAdded(Task task) {
-        System.out.println("    ____________________________________________________________");
-        System.out.println("      Got it. I've added this task: ");
-        System.out.println("      " + task);
-        System.out.println("      Now you have " + tasks.size() + " tasks in the list.");
-        System.out.println("    ____________________________________________________________");
+    public String printTaskAdded(Task task) {
+        return "Got it. I've added this task: \n"
+                + task + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.";
     }
 }

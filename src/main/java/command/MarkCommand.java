@@ -24,13 +24,11 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage fm) throws UserInputException {
+    public String execute(TaskList tasks, Storage fm) throws UserInputException {
         String result = markATask(tasks);
         fm.saveTasksToFile(tasks);
-        System.out.println("    ____________________________________________________________");
-        System.out.println("     " + result);
-        System.out.println("     " + tasks.getTask(taskID));
-        System.out.println("    ____________________________________________________________");
+        return result + "\n"
+                + tasks.getTask(taskID);
     }
 
     /**

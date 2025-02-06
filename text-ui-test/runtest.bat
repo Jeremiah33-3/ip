@@ -18,7 +18,7 @@ IF ERRORLEVEL 1 (
 REM no error here, errorlevel == 0
 
 REM run the program, feed commands from input.txt file and redirect the output to the ACTUAL.TXT
-java -classpath ..\bin HeyJudy < .\text-ui-test\input.txt > .\text-ui-test\ACTUAL.TXT
+java -classpath ..\bin ui.HeyJudy < .\text-ui-test\input.txt > .\text-ui-test\ACTUAL.TXT
 
 REM Convert ACTUAL.TXT and EXPECTED.TXT to Unix format (LF line endings)
 powershell -command.Command "(gc .\text-ui-test\ACTUAL.TXT) -replace '`r', '' -replace '\s+$', '' | sc .\text-ui-test\ACTUAL.TXT"
