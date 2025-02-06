@@ -64,19 +64,16 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage fm) throws UserInputException {
+    public String execute(TaskList tasks, Storage fm) throws UserInputException {
         switch (this.taskType) {
         case "todo":
-            addToDo(tasks, fm);
-            break;
+            return addToDo(tasks, fm);
         case "deadline":
-            addDeadline(tasks, fm);
-            break;
+            return addDeadline(tasks, fm);
         case "event":
-            addEvent(tasks, fm);
-            break;
+            return addEvent(tasks, fm);
         default:
-            break;
+            throw new UserInputException("don't want to admit it, but there might be a bug...");
         }
     }
 
@@ -85,12 +82,14 @@ public class AddCommand extends Command {
      *
      * @param tasks The task list to which the ToDo task will be added.
      * @param fm    The storage object used to save the updated task list.
+     *
+     * @return String The details of the task added.
      */
-    private void addToDo(TaskList tasks, Storage fm) {
+    private String addToDo(TaskList tasks, Storage fm) {
         ToDo toDo = new ToDo(this.description);
         tasks.addTask(toDo);
         fm.saveTasksToFile(tasks);
-        tasks.printTaskAdded(toDo);
+        return tasks.printTaskAdded(toDo);
     }
 
     /**
@@ -99,13 +98,16 @@ public class AddCommand extends Command {
      * @param tasks The task list to which the Deadline task will be added.
      * @param fm    The storage object used to save the updated task list.
      * @throws UserInputException If there is an error in user input (e.g., invalid date format).
+     *
+     *
+     * @return String The details of the deadline added.
      */
-    private void addDeadline(TaskList tasks, Storage fm) throws UserInputException {
+    private String addDeadline(TaskList tasks, Storage fm) throws UserInputException {
         try {
             Deadline deadline = new Deadline(this.description, this.by);
             tasks.addTask(deadline);
             fm.saveTasksToFile(tasks);
-            tasks.printTaskAdded(deadline);
+            return tasks.printTaskAdded(deadline);
         } catch (UserInputException e) {
             throw new UserInputException(e.getMessage());
         }
@@ -116,12 +118,15 @@ public class AddCommand extends Command {
      *
      * @param tasks The task list to which the Event task will be added.
      * @param fm    The storage object used to save the updated task list.
+     *
+     *
+     * @return String The details of the event added.
      */
-    private void addEvent(TaskList tasks, Storage fm) {
+    private String addEvent(TaskList tasks, Storage fm) {
         Event event = new Event(description.trim(), from, to);
         tasks.addTask(event);
         fm.saveTasksToFile(tasks);
-        tasks.printTaskAdded(event);
+        return tasks.printTaskAdded(event);
     }
 
     public String getType() {

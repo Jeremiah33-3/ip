@@ -38,11 +38,11 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage fm) throws UserInputException {
+    public String execute(TaskList tasks, Storage fm) throws UserInputException {
         if (isDateFormat(query)) {
-            searchByDate(tasks);
+            return searchByDate(tasks);
         } else {
-            searchByKeyword(tasks);
+            return searchByKeyword(tasks);
         }
     }
 
@@ -58,7 +58,7 @@ public class FindCommand extends Command {
         return false;
     }
 
-    private void searchByDate(TaskList tasks) throws UserInputException {
+    private String searchByDate(TaskList tasks) throws UserInputException {
         try {
             LocalDate searchDate = LocalDate.parse(query, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             ArrayList<Task> matchingTasks = new ArrayList<>();
@@ -76,14 +76,14 @@ public class FindCommand extends Command {
                 }
             }
 
-            printMatchingTasks(matchingTasks, "Tasks on " + searchDate + ":");
+            return getMatchingTasksString(matchingTasks, "Tasks on " + searchDate + ":");
 
         } catch (DateTimeParseException e) {
-            throw new UserInputException("     Excuse me, pls use yyyy-mm-dd (e.g., 2019-12-02).\n");
+            throw new UserInputException("Excuse me, pls use yyyy-mm-dd (e.g., 2019-12-02).\n");
         }
     }
 
-    private void searchByKeyword(TaskList tasks) throws UserInputException {
+    private String searchByKeyword(TaskList tasks) throws UserInputException {
         ArrayList<Task> matchingTasks = new ArrayList<>();
         String lowerCaseQuery = query.toLowerCase();
 
@@ -93,23 +93,24 @@ public class FindCommand extends Command {
             }
         }
 
-        printMatchingTasks(matchingTasks, "Here are the matching tasks in your list:");
+        return getMatchingTasksString(matchingTasks, "Here are the matching tasks in your list:");
     }
 
-    private void printMatchingTasks(ArrayList<Task> tasks, String header) throws UserInputException {
+    private String getMatchingTasksString(ArrayList<Task> tasks, String header) throws UserInputException {
         if (tasks.isEmpty()) {
             throw new UserInputException("     No matching tasks found!");
         } else {
-            UI.printLines();
-            System.out.println("     " + header);
+            StringBuilder result = new StringBuilder();
+            result.append(header).append("\n");
             int index = 1;
             for (Task task : tasks) {
-                System.out.println("     " + index + ". " + task);
+                result.append(index).append(". ").append(task).append("\n");
                 index++;
             }
-            UI.printLines();
+            return result.toString();
         }
     }
+
 
     public String getQuery() {
         return this.query;

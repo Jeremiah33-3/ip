@@ -16,7 +16,9 @@ public abstract class Command {
      * @param tasks The task list to which the task will be added.
      * @param fm    The storage object used to save the updated task list.
      * @throws UserInputException If there is an error in user input (e.g., invalid date format).
+     *
+     * @return String The output of the details after the command is executed.
      */
-    public abstract void execute(TaskList tasks, Storage fm) throws UserInputException;
+    public abstract String execute(TaskList tasks, Storage fm) throws UserInputException;
 }
 

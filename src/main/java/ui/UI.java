@@ -25,16 +25,10 @@ public class UI {
     /**
      * Greets the users by introducing the bot and logo when the bot is started.
      */
-    public static void greetUser() {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-        printLines();
-        System.out.println("     Hello! I'm your angsty chatbot, HeyJudy.");
-        System.out.println("     What can I do for you?");
-        printLines();
+    public static String greetUser() {
+        return """
+                HEYJUDY <33333333333333333333 \n
+                I'm your angsty chatbot, Judy. What can I do for you?"
+                """;
     }
 }
