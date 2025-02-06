@@ -41,7 +41,9 @@ public class FindCommand extends Command {
         if (isDateFormat(query)) {
             return searchByDate(tasks);
         } else {
-            return searchByKeyword(tasks);
+            String lowerCaseQuery = query.toLowerCase();
+            String[] keywords = lowerCaseQuery.split(" ");
+            return searchByKeyword(tasks, keywords);
         }
     }
 
@@ -85,13 +87,17 @@ public class FindCommand extends Command {
         }
     }
 
-    private String searchByKeyword(TaskList tasks) throws UserInputException {
+    private String searchByKeyword(TaskList tasks, String ... keywords) throws UserInputException {
         ArrayList<Task> matchingTasks = new ArrayList<>();
-        String lowerCaseQuery = query.toLowerCase();
 
         for (Task task : tasks.getTasks()) {
-            if (task.getDescription().toLowerCase().contains(lowerCaseQuery)) {
-                matchingTasks.add(task);
+            String taskDescription = task.getDescription().toLowerCase();
+
+            for (String keyword : keywords) {
+                if (taskDescription.contains(keyword.toLowerCase())) {
+                    matchingTasks.add(task);
+                    break;
+                }
             }
         }
 

@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -52,5 +53,10 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getJudyDialog(response, judyImage)
         );
         userInput.clear();
+
+        // Exit the application if the user inputs "bye"
+        if (input.trim().equalsIgnoreCase("bye")) {
+            Platform.exit();
+        }
     }
 }
