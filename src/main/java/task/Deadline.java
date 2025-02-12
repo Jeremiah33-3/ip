@@ -28,6 +28,7 @@ public class Deadline extends Task {
         super(description);
         try {
             this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
+            assert by != null: "due date should not be null in Deadline.java.";
         } catch (DateTimeParseException e) {
             throw new UserInputException("     hellu humans, "
                     + "please type date in this format: yyyy-mm-dd HH:mm");
@@ -46,6 +47,7 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         String formattedBy = by.format(OUTPUT_FORMATTER);
+        assert by != null: "due date should not be null after formatting in Deadline.java.";
         return "[D]" + "[" + this.getStatusIcon() + "] " + this.getDescription() + " (by: " + formattedBy + ")";
     }
 }

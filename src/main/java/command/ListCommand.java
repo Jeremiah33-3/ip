@@ -11,6 +11,8 @@ import ui.UI;
 public class ListCommand extends Command {
     @Override
     public String execute(TaskList tasks, Storage fm) throws UserInputException {
+        assert tasks != null: "TaskList provided should not be null in ListCommand execute";
+        assert fm != null: "Storage provided should not be null in ListCommand execute";
         int count = tasks.size();
         if (count == 0) {
             String message = "     Psss, I don't see any task yet. Please add. Directory:\n"

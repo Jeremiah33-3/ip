@@ -28,6 +28,7 @@ public class Storage {
      * @param path The path to the file in user's harddisk.
      */
     public Storage(String path) {
+        assert path != null && !path.isEmpty(): "file path should not be empty.";
         this.filePath = path;
     }
 
@@ -42,6 +43,7 @@ public class Storage {
             file.getParentFile().mkdirs(); // Ensure the directory exists
             BufferedWriter writer = new BufferedWriter(new FileWriter(this.filePath));
             ArrayList<Task> tasksToWrite = tasks.getTasks();
+            assert tasksToWrite != null: "tasks fetched from TaskList should not be null";
 
             for (Task task : tasksToWrite) {
                 writer.write(taskToFileFormat(task));
@@ -73,11 +75,13 @@ public class Storage {
                 task = new ToDo(description);
                 break;
             case "D":
+                assert parts.length > 4 : "Invalid Deadline task format detected at parseTaskFromFile";
                 String[] dateTime = parts[3].split("T");
                 String formattedDateTime = dateTime[0] + " " + dateTime[1];
                 task = new Deadline(description, formattedDateTime);
                 break;
             case "E":
+                assert parts.length > 5 : "Invalid Event task format";
                 task = new Event(description, parts[3], parts[4]);
                 break;
             default:

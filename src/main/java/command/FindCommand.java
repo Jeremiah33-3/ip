@@ -34,10 +34,13 @@ public class FindCommand extends Command {
      */
     public FindCommand(String query) {
         this.query = query;
+        assert this.query != null: "query stored in FindCommand should not be null";
     }
 
     @Override
     public String execute(TaskList tasks, Storage fm) throws UserInputException {
+        assert tasks != null: "TaskList provided should not be null in FindCommand execute";
+        assert fm != null: "Storage provided should not be null in FindCommand execute";
         if (isDateFormat(query)) {
             return searchByDate(tasks);
         } else {
@@ -65,6 +68,8 @@ public class FindCommand extends Command {
     private String searchByDate(TaskList tasks) throws UserInputException {
         try {
             LocalDate searchDate = LocalDate.parse(query, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            assert  searchDate != null: "searchDate should not be null "
+                    + "after parsing in FindCommand searchByDate";
             ArrayList<Task> matchingTasks = new ArrayList<>();
 
             for (Task task : tasks.getTasks()) {
@@ -92,6 +97,8 @@ public class FindCommand extends Command {
 
         for (Task task : tasks.getTasks()) {
             String taskDescription = task.getDescription().toLowerCase();
+            assert  taskDescription != null: "task description returned by task in " +
+                    "FindCommand searchByKeyword should not be null";
 
             for (String keyword : keywords) {
                 if (taskDescription.contains(keyword.toLowerCase())) {
