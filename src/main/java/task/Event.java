@@ -63,4 +63,10 @@ public class Event extends Task {
                 + " (from: " + formattedFrom
                 + " to: " + formattedTo + ")";
     }
+
+    @Override
+    public String toFileFormat() {
+        return "E | " + (this.getStatusIcon()) + " | "
+                + this.getDescription() + " | " + this.getFrom() + " | " + this.getTo();
+    }
 }

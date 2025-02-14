@@ -94,7 +94,7 @@ public class ParserTest {
         Command command = Parser.parse("mark 1");
         assertTrue(command instanceof MarkCommand);
         MarkCommand markCommand = (MarkCommand) command;
-        assertEquals("mark", markCommand.getAction());
+        assertEquals("MARK", markCommand.getAction());
         assertEquals(0, markCommand.getTaskID());
     }
 
@@ -103,7 +103,7 @@ public class ParserTest {
         Command command = Parser.parse("unmark 3");
         assertTrue(command instanceof MarkCommand);
         MarkCommand markCommand = (MarkCommand) command;
-        assertEquals("unmark", markCommand.getAction());
+        assertEquals("UNMARK", markCommand.getAction());
         assertEquals(2, markCommand.getTaskID());
     }
 
