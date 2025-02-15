@@ -1,5 +1,6 @@
 package parser;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import command.AddCommand;
@@ -20,8 +21,8 @@ public class Parser {
 
     private static final HashMap<String, Command> COMMANDS = new HashMap<>();
 
-    /**
-     * Static block to initialise commands without heavy parsing.
+    /*
+      Static block to initialise commands without heavy parsing.
      */
     static {
         COMMANDS.put("bye", new ExitCommand());
@@ -36,12 +37,8 @@ public class Parser {
      * @throws UserInputException If the user input is invalid or incomplete.
      */
     public static Command parse(String userCommand) throws UserInputException {
-        if (userCommand == null || userCommand.trim().isEmpty()) {
-            throw new UserInputException("What do you want? I can't see any command.");
-        }
-
-        String[] userArguments = userCommand.split(" ", 2);
-        String commandKeyword = userArguments[0].toLowerCase();
+        String[] TrimmedUserArguments = trimCommand(userCommand);
+        String commandKeyword = TrimmedUserArguments[0].toLowerCase();
 
         if (COMMANDS.containsKey(commandKeyword)) {
             return COMMANDS.get(commandKeyword);
@@ -50,53 +47,78 @@ public class Parser {
         switch (commandKeyword) {
         case "mark":
         case "unmark":
-            return parseMarkCommand(userArguments);
+            return parseMarkCommand(TrimmedUserArguments);
         case "todo":
-            return parseTodoCommand(userArguments);
+            return parseTodoCommand(TrimmedUserArguments);
         case "deadline":
-            return parseDeadlineCommand(userArguments);
+            return parseDeadlineCommand(TrimmedUserArguments);
         case "event":
-            return parseEventCommand(userArguments);
+            return parseEventCommand(TrimmedUserArguments);
         case "delete":
-            return parseDeleteCommand(userArguments);
+            return parseDeleteCommand(TrimmedUserArguments);
         case "find":
-            return parseFindCommand(userArguments);
+            return parseFindCommand(TrimmedUserArguments);
         default:
             throw new UserInputException("idk what you are doing "
                     + ":< please input deadline/todo/event/mark/unmark properly");
         }
     }
 
-    private static Command parseMarkCommand(String[] args) throws UserInputException {
+    private static String[] trimCommand(String userCommand) throws UserInputException {
+        if (userCommand == null || userCommand.trim().isEmpty()) {
+            throw new UserInputException("What do you want? I can't see any command.");
+        }
+
+        String[] trimmedParts = Arrays.stream(userCommand.trim().split(" ", 2))
+                .map(String::trim)
+                .toArray(String[]::new);
+
+        return trimmedParts;
+    }
+
+    private static Command parseMarkCommand(String[] args) {
         String action = args[0];
         int id = Integer.parseInt(args[1]) - 1;
         return new MarkCommand(action, id);
     }
 
     private static Command parseTodoCommand(String[] args) throws UserInputException {
-        if (args[1].trim().isEmpty()) {
+        if (args.length < 2 || args[1].isEmpty()) {
             throw new UserInputException("what are you going to do?? please input todo <description>");
         }
         return new AddCommand("todo", args[1]);
     }
 
     private static Command parseDeadlineCommand(String[] args) throws UserInputException {
-        String[] tokens = args[1].split(" /by ", 2);
-        if (tokens.length < 2) {
-            throw new UserInputException("Why are you not giving me your details? "
-                    + "How can I set deadline for you?? Format:\n"
-                    + "       deadline <description> /by <yyyy-mm-dd HH:mm>");
-        }
-        return new AddCommand("deadline", tokens[0], tokens[1]);
-    }
+        try {
+            String[] tokens = args[1].trim().split(" /by ", 2);
 
-    private static Command parseEventCommand(String[] args) throws UserInputException {
-        String[] tokens = args[1].split(" /from | /to ", 3);
-        if (tokens.length < 3) {
+            String[] trimmedParts = Arrays.stream(tokens)
+                    .map(String::trim)
+                    .toArray(String[]::new);
+
+            return new AddCommand("deadline", trimmedParts[0], trimmedParts[1]);
+
+        } catch (IndexOutOfBoundsException e) {
             throw new UserInputException("You not giving me enough inputs, how i do for you?? "
                     + "Format:\n event <description> /from <yyyy-mm-dd> /to <yyyy-mm-dd>");
         }
-        return new AddCommand("event", tokens[0], tokens[1], tokens[2]);
+    }
+
+    private static Command parseEventCommand(String[] args) throws UserInputException {
+        try {
+            String[] tokens = args[1].trim().split("/from | /to ", 3);
+
+            String[] trimmedParts = Arrays.stream(tokens)
+                    .map(String::trim)
+                    .toArray(String[]::new);
+
+            return new AddCommand("event", trimmedParts[0], trimmedParts[1], trimmedParts[2]);
+
+        } catch (IndexOutOfBoundsException e) {
+            throw new UserInputException("You not giving me enough inputs, how i do for you?? "
+                    + "Format:\n event <description> /from <yyyy-mm-dd> /to <yyyy-mm-dd>");
+        }
     }
 
     private static Command parseDeleteCommand(String[] args) throws UserInputException {
@@ -114,7 +136,7 @@ public class Parser {
     }
 
     private static Command parseFindCommand(String[] args) throws UserInputException {
-        if (args.length < 2 || args[1].trim().isEmpty()) {
+        if (args.length < 2 || args[1].isEmpty()) {
             throw new UserInputException("Why are you not providing a search term?? Format: find <keyword>");
         }
         return new FindCommand(args[1]);
