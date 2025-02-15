@@ -50,4 +50,10 @@ public class Deadline extends Task {
         assert by != null: "due date should not be null after formatting in Deadline.java.";
         return "[D]" + "[" + this.getStatusIcon() + "] " + this.getDescription() + " (by: " + formattedBy + ")";
     }
+
+    @Override
+    public String toFileFormat() {
+        return "D | " + (this.getStatusIcon()) + " | "
+                + this.getDescription() + " | " + this.getBy();
+    }
 }

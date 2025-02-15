@@ -7,7 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.FileHandler;
+import java.util.logging.SimpleFormatter;
 
+import exception.UserInputException;
 import task.Deadline;
 import task.Event;
 import task.Task;
@@ -20,7 +25,25 @@ import tasklist.TaskList;
  * It includes loading, saving, formatting and parsing files from the task list.
  */
 public class Storage {
+    private static final Logger logger = Logger.getLogger(Storage.class.getName());
+    private static final String LOG_FILE_PATH = "./data/log.txt";
     private final String filePath;
+
+    /**
+     * Initialises a logger to log any IOEException to the backend.
+     */
+    static {
+        try {
+            File logFile = new File(LOG_FILE_PATH);
+            logFile.getParentFile().mkdirs(); // Ensure log directory exists
+            FileHandler fileHandler = new FileHandler(LOG_FILE_PATH, true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+            logger.setUseParentHandlers(false);
+        } catch (IOException e) {
+            System.err.println("Could not initialize logger: " + e.getMessage());
+        }
+    }
 
     /**
      * Constructs a Storage based on the given file path.
@@ -51,10 +74,22 @@ public class Storage {
             }
             writer.close();
         } catch (IOException e) {
-            System.out.println("    ____________________________________________________________");
-            System.out.println("     Oops. Could not save tasks. Bops, you're stuck with me!");
-            System.out.println("    ____________________________________________________________");
+            logger.log(Level.SEVERE, "Error saving tasks to file: " + filePath, e);
         }
+    }
+
+    private Task parseTodoTask(String description) {
+        return new ToDo((description));
+    }
+
+    private Task parseDeadline(String description, String dateTimeParts) throws UserInputException {
+        String[] dateTime = dateTimeParts.split("T");
+        String formattedDateTime = dateTime[0] + " " + dateTime[1];
+        return new Deadline(description, formattedDateTime);
+    }
+
+    private Task parseEvent(String description, String from, String to) {
+        return new Event(description, from, to);
     }
 
     /**
@@ -72,17 +107,15 @@ public class Storage {
             Task task;
             switch (type) {
             case "T":
-                task = new ToDo(description);
+                task = parseTodoTask(description);
                 break;
             case "D":
                 assert parts.length > 4 : "Invalid Deadline task format detected at parseTaskFromFile";
-                String[] dateTime = parts[3].split("T");
-                String formattedDateTime = dateTime[0] + " " + dateTime[1];
-                task = new Deadline(description, formattedDateTime);
+                task = parseDeadline(description, parts[3]);
                 break;
             case "E":
                 assert parts.length > 5 : "Invalid Event task format";
-                task = new Event(description, parts[3], parts[4]);
+                task = parseEvent(description, parts[3], parts[4]);
                 break;
             default:
                 return null;
@@ -93,7 +126,8 @@ public class Storage {
             }
             return task;
         } catch (Exception e) {
-            return null; // Corrupted lines
+            logger.log(Level.SEVERE, "Corrupted task entry: " + line, e);
+            return null;
         }
     }
 
@@ -119,10 +153,7 @@ public class Storage {
             }
             reader.close();
         } catch (IOException e) {
-            System.out.println("    ____________________________________________________________");
-            System.out.println("     Sad, your task list file is corrupted. "
-                    + "I'm pretending it never existed.");
-            System.out.println("    ____________________________________________________________");
+            logger.log(Level.SEVERE, "Error loading tasks from file: " + filePath, e);
         }
     }
 
@@ -132,15 +163,6 @@ public class Storage {
      * @param task The task to be parsed.
      */
     private static String taskToFileFormat(Task task) {
-        if (task instanceof ToDo) {
-            return "T | " + (task.getStatusIcon()) + " | " + task.getDescription();
-        } else if (task instanceof Deadline) {
-            return "D | " + (task.getStatusIcon()) + " | "
-                    + task.getDescription() + " | " + ((Deadline) task).getBy();
-        } else if (task instanceof Event) {
-            return "E | " + (task.getStatusIcon()) + " | "
-                    + task.getDescription() + " | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo();
-        }
-        return "";
+        return task.toFileFormat();
     }
 }

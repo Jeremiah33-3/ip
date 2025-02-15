@@ -48,9 +48,6 @@ public class HeyJudy {
             }
 
             return command.execute(TASK_LIST, STORAGE);
-//            if (command instanceof ExitCommand) {
-//                running = false;
-//            }
         } catch (UserInputException e) {
                 return(e.getMessage());
         }
