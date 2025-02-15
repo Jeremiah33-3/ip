@@ -24,6 +24,8 @@ public class DeleteCommand extends Command {
 
     @Override
     public String execute(TaskList tasks, Storage fm) throws UserInputException {
+        assert tasks != null: "TaskList provided should not be null in DeleteCommand execute";
+        assert fm != null: "Storage provided should not be null in DeleteCommand execute";
         return deleteTask(tasks, fm);
     }
 

@@ -25,7 +25,10 @@ public class MarkCommand extends Command {
 
     @Override
     public String execute(TaskList tasks, Storage fm) throws UserInputException {
+        assert tasks != null: "TaskList provided should not be null in MarkCommand execute";
+        assert fm != null: "Storage provided should not be null in MarkCommand execute";
         String result = markATask(tasks);
+        assert result != null: "result returned by markATask in MarkCommand should not be null.";
         fm.saveTasksToFile(tasks);
         return result + "\n"
                 + tasks.getTask(taskID);
@@ -43,6 +46,7 @@ public class MarkCommand extends Command {
         }
 
         Task task = tasks.getTask(taskID);
+        assert task != null: "task returned should not be null in markATask in MarkCommand.";
 
         if (action.equalsIgnoreCase("mark")) {
             if (task.getIsDone()) {

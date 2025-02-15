@@ -1,14 +1,10 @@
 package ui;
 
-import java.util.Scanner;
-
 import command.Command;
-import command.ExitCommand;
 import exception.UserInputException;
 import parser.Parser;
 import storage.Storage;
 import tasklist.TaskList;
-import ui.UI;
 
 /**
  * The ui.HeyJudy class represents the main entry point for the ui.HeyJudy task manager bot.
@@ -24,6 +20,8 @@ public class HeyJudy {
     private static final Storage STORAGE = new Storage(FILE_PATH);
 
     public HeyJudy() {
+        assert STORAGE != null: "STORAGE const in HeyJudy class should not be null.";
+        assert TASK_LIST != null: "TASK_LIST const in HeyJudy class should not be null.";
         loadTasksFromFile();
     }
 
@@ -33,7 +31,6 @@ public class HeyJudy {
      * <p>Delegates the file loading operation to the Storage class.
      */
     public static void loadTasksFromFile() {
-
         STORAGE.loadTasksFromFile(TASK_LIST);
     }
 

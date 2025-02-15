@@ -65,6 +65,8 @@ public class AddCommand extends Command {
 
     @Override
     public String execute(TaskList tasks, Storage fm) throws UserInputException {
+        assert tasks != null: "TaskList provided should not be null in AddCommand execute";
+        assert fm != null: "Storage provided should not be null in AddCommand execute";
         switch (this.taskType) {
         case "todo":
             return addToDo(tasks, fm);

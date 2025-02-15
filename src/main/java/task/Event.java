@@ -30,6 +30,8 @@ public class Event extends Task {
         super(description);
         this.from = LocalDate.parse(from, INPUT_FORMATTER);
         this.to = LocalDate.parse(to, INPUT_FORMATTER);
+        assert from != null: "event start date should not be null in Event.java.";
+        assert to != null: "event end date should not be null in Event.java.";
     }
 
     /**
@@ -55,6 +57,8 @@ public class Event extends Task {
     public String toString() {
         String formattedFrom = from.format(OUTPUT_FORMATTER);
         String formattedTo = to.format(OUTPUT_FORMATTER);
+        assert formattedFrom != null: "event start date should not be null after formatting in Event.java.";
+        assert formattedFrom != null: "event end date should not be null after formatting in Event.java.";
         return "[E]" + "[" + this.getStatusIcon() + "] " + this.getDescription()
                 + " (from: " + formattedFrom
                 + " to: " + formattedTo + ")";
