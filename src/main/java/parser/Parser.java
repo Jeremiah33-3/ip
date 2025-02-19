@@ -54,6 +54,8 @@ public class Parser {
             return parseDeadlineCommand(TrimmedUserArguments);
         case "event":
             return parseEventCommand(TrimmedUserArguments);
+        case "recurring":
+            return parseRecurringTaskCommand(TrimmedUserArguments);
         case "delete":
             return parseDeleteCommand(TrimmedUserArguments);
         case "find":
@@ -76,7 +78,11 @@ public class Parser {
         return trimmedParts;
     }
 
-    private static Command parseMarkCommand(String[] args) {
+    private static Command parseMarkCommand(String[] args) throws UserInputException {
+        if (args.length < 2 || args[1].isEmpty()) {
+            throw new UserInputException("which task are you tring to mark/unmark? \n"
+            + "input as: mark <task_id> or unmark <task_id>");
+        }
         String action = args[0];
         int id = Integer.parseInt(args[1]) - 1;
         return new MarkCommand(action, id);
@@ -121,6 +127,23 @@ public class Parser {
         }
     }
 
+    private static Command parseRecurringTaskCommand(String[] args) throws UserInputException {
+        try {
+            String[] tokens = args[1].trim().split("/at | /freq ", 3);
+
+            String[] trimmedParts = Arrays.stream(tokens)
+                    .map(String::trim)
+                    .toArray(String[]::new);
+
+            return new AddCommand("recurring", trimmedParts[0], trimmedParts[1], trimmedParts[2]);
+
+        } catch (IndexOutOfBoundsException e) {
+            throw new UserInputException("You not giving me enough inputs, how i do for you?? "
+                    + "Format:\n recurring "
+                    + "<description> /at <yyyy-mm-dd HH:mm> /freq <daily,weekly OR monthly>");
+        }
+    }
+
     private static Command parseDeleteCommand(String[] args) throws UserInputException {
         if (args.length < 2) {
             throw new UserInputException("Don't be ambitious. Please delete one task at a time. "
@@ -139,6 +162,6 @@ public class Parser {
         if (args.length < 2 || args[1].isEmpty()) {
             throw new UserInputException("Why are you not providing a search term?? Format: find <keyword>");
         }
-        return new FindCommand(args[1]);
+        return new FindCommand(args[1].trim());
     }
 }

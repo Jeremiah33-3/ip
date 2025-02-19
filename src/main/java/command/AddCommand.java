@@ -4,6 +4,7 @@ import exception.UserInputException;
 import storage.Storage;
 import task.Deadline;
 import task.Event;
+import task.RecurringTask;
 import task.ToDo;
 import tasklist.TaskList;
 
@@ -12,11 +13,11 @@ import tasklist.TaskList;
  * The task can be of type ToDo, Deadline, or Event.
  */
 public class AddCommand extends Command {
-    private String taskType;
-    private String description;
-    private String from;
-    private String to;
-    private String by;
+    private final String taskType;
+    private final String description;
+    private final String fromOrDate;
+    private final String toOrFreq;
+    private final String by;
 
     /**
      * Constructs an AddCommand for a ToDo task.
@@ -27,8 +28,8 @@ public class AddCommand extends Command {
     public AddCommand(String taskType, String description) {
         this.taskType = taskType;
         this.description = description;
-        this.from = null;
-        this.to = null;
+        this.fromOrDate = null;
+        this.toOrFreq = null;
         this.by = null;
     }
 
@@ -42,24 +43,24 @@ public class AddCommand extends Command {
     public AddCommand(String taskType, String description, String by) {
         this.taskType = taskType;
         this.description = description;
-        this.from = null;
-        this.to = null;
+        this.fromOrDate = null;
+        this.toOrFreq = null;
         this.by = by;
     }
 
     /**
-     * Constructs an AddCommand for an Event task.
+     * Constructs an AddCommand for an Event or Recurring task.
      *
-     * @param taskType    The type of the task (e.g., "event").
+     * @param taskType    The type of the task (e.g., "event"/"recurring").
      * @param description The description of the task.
-     * @param from        The start date/time of the event.
-     * @param to          The end date/time of the event.
+     * @param fromOrDate        The start date/time of the event.
+     * @param toOrFreq          The end date/time of the event.
      */
-    public AddCommand(String taskType, String description, String from, String to) {
+    public AddCommand(String taskType, String description, String fromOrDate, String toOrFreq) {
         this.taskType = taskType;
         this.description = description;
-        this.from = from;
-        this.to = to;
+        this.fromOrDate = fromOrDate;
+        this.toOrFreq = toOrFreq;
         this.by = null;
     }
 
@@ -74,6 +75,8 @@ public class AddCommand extends Command {
             return addDeadline(tasks, fm);
         case "event":
             return addEvent(tasks, fm);
+        case "recurring":
+            return addRecurringTask(tasks, fm);
         default:
             throw new UserInputException("don't want to admit it, but there might be a bug...");
         }
@@ -101,7 +104,6 @@ public class AddCommand extends Command {
      * @param fm    The storage object used to save the updated task list.
      * @throws UserInputException If there is an error in user input (e.g., invalid date format).
      *
-     *
      * @return String The details of the deadline added.
      */
     private String addDeadline(TaskList tasks, Storage fm) throws UserInputException {
@@ -121,14 +123,30 @@ public class AddCommand extends Command {
      * @param tasks The task list to which the Event task will be added.
      * @param fm    The storage object used to save the updated task list.
      *
-     *
      * @return String The details of the event added.
      */
     private String addEvent(TaskList tasks, Storage fm) {
-        Event event = new Event(description.trim(), from, to);
+        Event event = new Event(description.trim(), fromOrDate, toOrFreq);
         tasks.addTask(event);
         fm.saveTasksToFile(tasks);
         return tasks.printTaskAdded(event);
+    }
+
+    /**
+     * Adds a recurring task to the task list and saves the updated list to storage.
+     *
+     * @param tasks The task list to which the Event task will be added.
+     * @param fm    The storage object used to save the updated task list.
+     *
+     * @return String The details of the event added.
+     */
+    private String addRecurringTask(TaskList tasks, Storage fm)
+            throws UserInputException {
+        // TODO: parse recurring task and stores it specially
+        RecurringTask recurringTask = new RecurringTask(description.trim(), fromOrDate, toOrFreq);
+        tasks.addTask(recurringTask);
+        fm.saveTasksToFile(tasks);
+        return tasks.printTaskAdded(recurringTask);
     }
 
     public String getType() {
@@ -143,11 +161,11 @@ public class AddCommand extends Command {
         return this.by;
     }
 
-    public String getFrom() {
-        return this.from;
+    public String getFromOrDate() {
+        return this.fromOrDate;
     }
 
-    public String getTo() {
-        return this.to;
+    public String getToOrFreq() {
+        return this.toOrFreq;
     }
 }

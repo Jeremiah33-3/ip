@@ -59,7 +59,7 @@ public class MarkCommand extends Command {
         return switch (action) {
             case MARK -> markTask(task);
             case UNMARK -> unmarkTask(task);
-            default -> throw new UserInputException("Unknown command?");
+            default -> throw new UserInputException("Unknown command??");
         };
     }
 

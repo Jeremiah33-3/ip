@@ -4,14 +4,13 @@ import exception.UserInputException;
 import storage.Storage;
 import task.Task;
 import tasklist.TaskList;
-import ui.UI;
 
 /**
  * Represents a command to delete a task from the task list.
  */
 public class DeleteCommand extends Command {
 
-    private int taskID;
+    private final int taskID;
 
     /**
      * Constructs a DeleteCommand with the specified task ID.

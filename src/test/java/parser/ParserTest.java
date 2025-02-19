@@ -59,8 +59,8 @@ public class ParserTest {
         AddCommand addCommand = (AddCommand) command;
         assertEquals("event", addCommand.getType());
         assertEquals("Conference", addCommand.getDescription());
-        assertEquals("2025-03-01", addCommand.getFrom());
-        assertEquals("2025-03-03", addCommand.getTo());
+        assertEquals("2025-03-01", addCommand.getFromOrDate());
+        assertEquals("2025-03-03", addCommand.getToOrFreq());
     }
 
     @Test
