@@ -1,4 +1,4 @@
-# ui.HeyJudy
+# HeyJudy
 
 This is a bot that can help you to organise to-do list. It is a bit moody, tho... not for the faint-hearted ><
 
