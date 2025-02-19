@@ -125,7 +125,8 @@ public class AddCommand extends Command {
      *
      * @return String The details of the event added.
      */
-    private String addEvent(TaskList tasks, Storage fm) {
+    private String addEvent(TaskList tasks, Storage fm)
+            throws UserInputException {
         Event event = new Event(description.trim(), fromOrDate, toOrFreq);
         tasks.addTask(event);
         fm.saveTasksToFile(tasks);

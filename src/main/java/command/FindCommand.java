@@ -79,8 +79,7 @@ public class FindCommand extends Command {
                         matchingTasks.add(task);
                     }
                 } else if (task instanceof Event) {
-                    if (((Event) task).getFrom().equals(searchDate)
-                            || ((Event) task).getTo().equals(searchDate)) {
+                    if (hasSearchDate(searchDate, ((Event) task).getFrom(), ((Event) task).getTo())) {
                         matchingTasks.add(task);
                     }
                 } else if (task instanceof RecurringTask) {
@@ -94,6 +93,23 @@ public class FindCommand extends Command {
 
         } catch (DateTimeParseException e) {
             throw new UserInputException("Excuse me, pls use yyyy-mm-dd (e.g., 2019-12-02).\n");
+        }
+    }
+
+    private boolean hasSearchDate(LocalDate searchDate, LocalDate start, LocalDate end)
+            throws UserInputException {
+        try {
+            LocalDate currDate = start;
+            while (!currDate.equals(end.plusDays(1))) {
+                if (currDate.equals(searchDate)) {
+                    return true;
+                } else {
+                    currDate = currDate.plusDays(1);
+                }
+            }
+            return false;
+        } catch (NullPointerException e) {
+            throw new UserInputException("search date is null???");
         }
     }
 

@@ -145,22 +145,27 @@ public class Parser {
     }
 
     private static Command parseDeleteCommand(String[] args) throws UserInputException {
-        if (args.length < 2) {
-            throw new UserInputException("Don't be ambitious. Please delete one task at a time. "
-                    + "Format:\n"
-                    + "delete <id of task>");
-        }
         try {
+            if (args[1].split(" ").length > 1) {
+                throw new UserInputException("Don't be ambitious. Please delete one task at a time. "
+                        + "Format:\n"
+                        + "delete <id of task>");
+            }
             int taskIndex = Integer.parseInt(args[1]) - 1;
             return new DeleteCommand(taskIndex);
         } catch (NumberFormatException e) {
             throw new UserInputException("Invalid task ID format. Can you use a number!!");
+        } catch (IndexOutOfBoundsException e) {
+            throw new UserInputException("Helloo what am I supposed to delete "
+                    + "Format:\n"
+                    + "delete <id of task>");
         }
     }
 
     private static Command parseFindCommand(String[] args) throws UserInputException {
         if (args.length < 2 || args[1].isEmpty()) {
-            throw new UserInputException("Why are you not providing a search term?? Format: find <keyword>");
+            throw new UserInputException
+                    ("Why are you not providing a search term?? Format: find <keyword>/<date>");
         }
         return new FindCommand(args[1].trim());
     }
