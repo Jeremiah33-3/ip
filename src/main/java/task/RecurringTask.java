@@ -14,7 +14,7 @@ public class RecurringTask extends Task {
     private static final DateTimeFormatter INPUT_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter OUTPUT_FORMATTER =
-            DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
+            DateTimeFormatter.ofPattern("E, MMM dd yyyy, h:mm a");
     public enum Frequency {
         DAILY,
         WEEKLY,
@@ -52,7 +52,7 @@ public class RecurringTask extends Task {
         return "[R]"
                 + "[" + this.getStatusIcon()
                 + "] " + this.getDescription()
-                + " (time: " + formattedTime + ")"
+                + " (first occurrence: " + formattedTime + ")"
                 + " (repeats: " + frequency + ")";
     }
 

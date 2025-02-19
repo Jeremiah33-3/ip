@@ -1,5 +1,7 @@
 package task;
 
+import exception.UserInputException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -12,12 +14,12 @@ public class Event extends Task {
     /**
      * The start date of the event.
      */
-    private LocalDate from;
+    private final LocalDate from;
 
     /**
      * The end date of the event.
      */
-    private LocalDate to;
+    private final LocalDate to;
 
     /**
      * Constructs a new Event with the specified description and date range as strings.
@@ -26,12 +28,17 @@ public class Event extends Task {
      * @param from The start date as a string in the format "yyyy-MM-dd".
      * @param to The end date as a string in the format "yyyy-MM-dd".
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, String from, String to) throws UserInputException {
         super(description);
         this.from = LocalDate.parse(from, INPUT_FORMATTER);
         this.to = LocalDate.parse(to, INPUT_FORMATTER);
-        assert from != null: "event start date should not be null in Event.java.";
-        assert to != null: "event end date should not be null in Event.java.";
+        if (!isValidStartEnd(this.from, this.to)) {
+            throw new UserInputException("Psss, event start date must be before end date.");
+        }
+    }
+
+    private boolean isValidStartEnd(LocalDate start, LocalDate end) {
+        return start.isBefore(end) && !start.isEqual(end);
     }
 
     /**
@@ -57,8 +64,6 @@ public class Event extends Task {
     public String toString() {
         String formattedFrom = from.format(OUTPUT_FORMATTER);
         String formattedTo = to.format(OUTPUT_FORMATTER);
-        assert formattedFrom != null: "event start date should not be null after formatting in Event.java.";
-        assert formattedFrom != null: "event end date should not be null after formatting in Event.java.";
         return "[E]" + "[" + this.getStatusIcon() + "] " + this.getDescription()
                 + " (from: " + formattedFrom
                 + " to: " + formattedTo + ")";

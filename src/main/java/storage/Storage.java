@@ -96,7 +96,8 @@ public class Storage {
         return new RecurringTask(description, formattedDateTime, frequency);
     }
 
-    private Task parseEvent(String description, String from, String to) {
+    private Task parseEvent(String description, String from, String to)
+            throws UserInputException {
         return new Event(description, from, to);
     }
 
