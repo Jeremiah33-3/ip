@@ -4,12 +4,16 @@ import exception.UserInputException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 /**
  * Represents an event.
  */
 public class Event extends Task {
-    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter
+            .ofPattern("yyyy-MM-dd")
+            .withResolverStyle(ResolverStyle.STRICT);;
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
     /**
      * The start date of the event.
@@ -30,10 +34,14 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to) throws UserInputException {
         super(description);
-        this.from = LocalDate.parse(from, INPUT_FORMATTER);
-        this.to = LocalDate.parse(to, INPUT_FORMATTER);
-        if (!isValidStartEnd(this.from, this.to)) {
-            throw new UserInputException("Psss, event start date must be before end date.");
+        try {
+            this.from = LocalDate.parse(from, INPUT_FORMATTER);
+            this.to = LocalDate.parse(to, INPUT_FORMATTER);
+            if (!isValidStartEnd(this.from, this.to)) {
+                throw new UserInputException("Psss, event start date must be before end date.");
+            }
+        } catch (DateTimeParseException e) {
+            throw new UserInputException("Ermmm, can you check if the date is valid?");
         }
     }
 

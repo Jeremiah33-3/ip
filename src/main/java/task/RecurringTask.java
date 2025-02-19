@@ -5,6 +5,7 @@ import exception.UserInputException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Arrays;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Arrays;
  */
 public class RecurringTask extends Task {
     private static final DateTimeFormatter INPUT_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withResolverStyle(ResolverStyle.STRICT);
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("E, MMM dd yyyy, h:mm a");
     public enum Frequency {
@@ -37,7 +38,7 @@ public class RecurringTask extends Task {
             }
             this.frequency = freq;
         } catch (DateTimeParseException e) {
-            throw new UserInputException("     hellu humans, "
+            throw new UserInputException("hellu humans, check if the date is valid and "
                     + "please type date in this format: yyyy-mm-dd HH:mm");
         }
     }

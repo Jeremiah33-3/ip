@@ -3,6 +3,7 @@ package task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 import exception.UserInputException;
 
@@ -11,7 +12,9 @@ import exception.UserInputException;
  */
 public class Deadline extends Task {
     private static final DateTimeFormatter INPUT_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            DateTimeFormatter
+                    .ofPattern("yyyy-MM-dd HH:mm")
+                    .withResolverStyle(ResolverStyle.STRICT);;
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
 
@@ -30,7 +33,7 @@ public class Deadline extends Task {
             this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
             assert by != null: "due date should not be null in Deadline.java.";
         } catch (DateTimeParseException e) {
-            throw new UserInputException("     hellu humans, "
+            throw new UserInputException("HUMAN, please check if the date is valid and "
                     + "please type date in this format: yyyy-mm-dd HH:mm");
         }
     }
