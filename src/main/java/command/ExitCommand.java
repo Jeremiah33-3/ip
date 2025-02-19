@@ -3,7 +3,6 @@ package command;
 import exception.UserInputException;
 import storage.Storage;
 import tasklist.TaskList;
-import ui.UI;
 
 /**
  * Represents a command to exit the chat bot.

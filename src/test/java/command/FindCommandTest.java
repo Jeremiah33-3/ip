@@ -41,7 +41,7 @@ public class FindCommandTest {
         FindCommand findCommand = new FindCommand("assignment");
         Exception exception = assertThrows(UserInputException.class, () ->
                 findCommand.execute(taskList, storage));
-        assertEquals("     No matching tasks found!", exception.getMessage());
+        assertEquals("No matching tasks found!", exception.getMessage());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class FindCommandTest {
         FindCommand findCommand = new FindCommand("2024-12-31");
         Exception exception = assertThrows(UserInputException.class, () ->
                 findCommand.execute(taskList, storage));
-        assertEquals("     No matching tasks found!", exception.getMessage());
+        assertEquals("No matching tasks found!", exception.getMessage());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class FindCommandTest {
         FindCommand findCommand = new FindCommand("06-06-2024");
         Exception exception = assertThrows(UserInputException.class, () ->
                 findCommand.execute(taskList, storage));
-        assertEquals("     Excuse me, pls use yyyy-mm-dd (e.g., 2019-12-02).\n",
+        assertEquals("Excuse me, pls use yyyy-mm-dd (e.g., 2019-12-02).\n",
                 exception.getMessage());
     }
 }
