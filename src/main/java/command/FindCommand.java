@@ -10,6 +10,7 @@ import exception.UserInputException;
 import storage.Storage;
 import task.Deadline;
 import task.Event;
+import task.RecurringTask;
 import task.Task;
 import tasklist.TaskList;
 
@@ -54,7 +55,7 @@ public class FindCommand extends Command {
         try {
             for (DateTimeFormatter formatter : DATE_FORMATS) {
                 LocalDate date = LocalDate.parse(input, formatter);
-                if (date == null) {
+                if (date != null) {
                     return true;
                 }
             }
@@ -80,6 +81,10 @@ public class FindCommand extends Command {
                 } else if (task instanceof Event) {
                     if (((Event) task).getFrom().equals(searchDate)
                             || ((Event) task).getTo().equals(searchDate)) {
+                        matchingTasks.add(task);
+                    }
+                } else if (task instanceof RecurringTask) {
+                    if (((RecurringTask) task).getOccurrenceDate().toLocalDate().equals(searchDate)){
                         matchingTasks.add(task);
                     }
                 }

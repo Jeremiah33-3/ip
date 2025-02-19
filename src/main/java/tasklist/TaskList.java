@@ -2,6 +2,7 @@ package tasklist;
 
 import java.util.ArrayList;
 
+import task.RecurringTask;
 import task.Task;
 
 /**
@@ -9,15 +10,19 @@ import task.Task;
  * This class allows adding, removing, and retrieving tasks, as well as printing task-related information.
  */
 public class TaskList {
-    private final ArrayList<Task> tasks = new ArrayList<>();
-
+    private final ArrayList<Task> nonRecurringTasks = new ArrayList<>();
+    private final ArrayList<RecurringTask> recurringTasks = new ArrayList<>();
     /**
      * Adds a task to the task list.
      *
      * @param task The task to be added to the list.
      */
     public void addTask(Task task) {
-        tasks.add(task);
+        if (task instanceof RecurringTask) {
+            recurringTasks.add((RecurringTask) task);
+        } else {
+            nonRecurringTasks.add(task);
+        }
     }
 
     /**
@@ -26,7 +31,10 @@ public class TaskList {
      * @return The ArrayList containing all tasks.
      */
     public ArrayList<Task> getTasks() {
-        return tasks;
+        ArrayList<Task> allTasks = new ArrayList<>();
+        allTasks.addAll(nonRecurringTasks);
+        allTasks.addAll(recurringTasks);
+        return allTasks;
     }
 
     /**
@@ -36,7 +44,11 @@ public class TaskList {
      * @return The task that was removed.
      */
     public Task removeTask(int index) {
-        return tasks.remove(index);
+        if (index < nonRecurringTasks.size()) {
+            return nonRecurringTasks.remove(index);
+        } else {
+            return recurringTasks.remove(index - nonRecurringTasks.size());
+        }
     }
 
     /**
@@ -45,7 +57,7 @@ public class TaskList {
      * @return The size of the task list.
      */
     public int size() {
-        return tasks.size();
+        return nonRecurringTasks.size() + recurringTasks.size();
     }
 
     /**
@@ -55,7 +67,11 @@ public class TaskList {
      * @return The task at the specified index.
      */
     public Task getTask(int id) {
-        return tasks.get(id);
+        if (id < nonRecurringTasks.size()) {
+            return nonRecurringTasks.get(id);
+        } else {
+            return recurringTasks.get(id - nonRecurringTasks.size());
+        }
     }
 
     /**
@@ -65,8 +81,24 @@ public class TaskList {
      * @param task The task that was added.
      */
     public String printTaskAdded(Task task) {
+        int totalTasksCount = nonRecurringTasks.size() + recurringTasks.size();
         return "Got it. I've added this task: \n"
                 + task + "\n"
-                + "Now you have " + tasks.size() + " tasks in the list.";
+                + "Now you have " + totalTasksCount
+                + " tasks in the list.";
+    }
+
+    /**
+     * Returns a list of nonrecurring tasks.
+     */
+    public ArrayList<Task> getNonRecurringTasks() {
+        return nonRecurringTasks;
+    }
+
+    /**
+     * Returns a list of recurrig tasks.
+     */
+    public ArrayList<RecurringTask> getRecurringTasks() {
+        return recurringTasks;
     }
 }

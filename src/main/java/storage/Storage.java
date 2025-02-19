@@ -15,6 +15,7 @@ import java.util.logging.SimpleFormatter;
 import exception.UserInputException;
 import task.Deadline;
 import task.Event;
+import task.RecurringTask;
 import task.Task;
 import task.ToDo;
 import tasklist.TaskList;
@@ -88,6 +89,13 @@ public class Storage {
         return new Deadline(description, formattedDateTime);
     }
 
+    private Task parseRecurringTask(String description, String dateTimeParts, String frequency)
+            throws UserInputException {
+        String[] dateTime = dateTimeParts.split("T");
+        String formattedDateTime = dateTime[0] + " " + dateTime[1];
+        return new RecurringTask(description, formattedDateTime, frequency);
+    }
+
     private Task parseEvent(String description, String from, String to) {
         return new Event(description, from, to);
     }
@@ -116,6 +124,9 @@ public class Storage {
             case "E":
                 assert parts.length > 5 : "Invalid Event task format";
                 task = parseEvent(description, parts[3], parts[4]);
+                break;
+            case "R":
+                task = parseRecurringTask(description, parts[3], parts[4]);
                 break;
             default:
                 return null;
