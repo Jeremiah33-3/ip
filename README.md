@@ -4,10 +4,10 @@ This is a bot that can help you to organise to-do list. It is a bit moody, tho..
 
 ### credits
 
-1. This repo is forked from Duke. 
+1. This repo is forked from _Duke_. 
 
-   Hello from
    ```
+   Hello from
     ____        _        
    |  _ \ _   _| | _____ 
    | | | | | | | |/ / _ \
