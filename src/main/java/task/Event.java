@@ -12,8 +12,7 @@ import java.time.format.ResolverStyle;
  */
 public class Event extends Task {
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter
-            .ofPattern("yyyy-MM-dd")
-            .withResolverStyle(ResolverStyle.STRICT);;
+            .ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
     /**
      * The start date of the event.

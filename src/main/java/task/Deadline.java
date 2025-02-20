@@ -13,8 +13,7 @@ import exception.UserInputException;
 public class Deadline extends Task {
     private static final DateTimeFormatter INPUT_FORMATTER =
             DateTimeFormatter
-                    .ofPattern("yyyy-MM-dd HH:mm")
-                    .withResolverStyle(ResolverStyle.STRICT);;
+                    .ofPattern("yyyy-MM-dd HH:mm");
     private static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
 
